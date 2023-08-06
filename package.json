@@ -14,6 +14,10 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.1",
     "@mui/x-data-grid": "^5.17.2",
+    "@supabase/auth-helpers-nextjs": "^0.7.4",
+    "@supabase/auth-ui-react": "^0.4.2",
+    "@supabase/auth-ui-shared": "^0.1.6",
+    "@supabase/supabase-js": "^2.21.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -23,6 +27,7 @@
     "autoprefixer": "10.4.14",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "formik": "^2.4.3",
     "next": "13.4.12",
     "postcss": "8.4.27",
     "react": "18.2.0",
@@ -32,6 +37,7 @@
     "recharts": "^2.1.14",
     "sass": "^1.53.0",
     "tailwindcss": "3.3.3",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "yup": "^1.2.0"
   }
 }

@@ -1,3 +1,4 @@
+'use client'
 import "./navbar.scss"
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
@@ -8,6 +9,7 @@ import ChatBubbleOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutline
 import ListOutLinedIcon from "@mui/icons-material/ListOutlined";
 import { useContext} from "react";
 import { DarkModeContext} from "../../context/darkModeContext";
+import LogoutButton from "../LogoutButton";
 
 const Navbar = () => {
 
@@ -44,6 +46,9 @@ const Navbar = () => {
           </div>
           <div className="item">
            <img src="https://images.pexels.com/photos/1967902/pexels-photo-1967902.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" className="avatar"/>
+          </div>
+          <div className="item">
+          <LogoutButton />
           </div>
         </div>
       </div>
