@@ -1,28 +1,18 @@
-import "./datatable.scss";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../app/datatablesource";
-// import { Link } from "next/link";
 import { useEffect, useState } from "react";
+import './datatable.scss'
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const Datatable = () => {
-
-
-  const rows: GridRowsProp = [
-    { id: 1, col1: 'Hello', col2: 'World' },
-    { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-    {
-      id: 3, col1: 'MUI', col2: 'is Amazing',
-    }
-  ];
-  const [data, setData] = useState(rows);
-  const handleDelete = (id: number) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-
+  const supabase = createClientComponentClient()
+  const [data, setData] =useState<any[]>([])
   const columns: GridColDef[] = [
-    { field: 'col1', headerName: 'Nom', width: 150 },
-    { field: 'col2', headerName: 'CIN', width: 150 },
+    { field: "CIN", headerName: "Cin", width: 250 },
+    { field: "nom", headerName: "nom", width: 250 },
+    { field: "prenom", headerName: "prenom", width: 250 },
+    { field: "phone", headerName: "Telephone", width: 250 },
+    { field: "inscrit", headerName: "date d'inscription", width: 250 },
     {
       field: "action",
       headerName: "Action",
@@ -30,7 +20,7 @@ const Datatable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link href="/users/test" style={{ textDecoration: "none" }}>
+            <Link href={`/users/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -44,6 +34,28 @@ const Datatable = () => {
       },
     },
   ];
+  const fetchClients = async () => {
+    try {
+      const  {data:clients,error}  = await supabase.from("clients").select("*");
+      if (error)   {
+        throw new Error("Error fetching clients.");
+      }
+      setData(clients);
+      console.log(clients)
+    } catch (error:any) {
+      console.error(error.message);
+    }
+  };
+  useEffect(() => {
+    fetchClients();
+  }, [[supabase, setData]]);
+  const handleDelete = async (id:any) => {
+    try {
+      setData((prevData) => prevData.filter((item:any) => item.id !== id));
+    } catch (error:any) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <div className="datatable">
@@ -53,7 +65,7 @@ const Datatable = () => {
           Add New
         </Link>
       </div>
-      <div style={{ height: 300, width: '100%' }}>
+      <div style={{ height: 530, width: "100%" }}>
         <DataGrid rows={data} columns={columns} />
       </div>
     </div>

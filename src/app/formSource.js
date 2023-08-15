@@ -42,35 +42,75 @@ export const userInputs = [
     },
   ];
   
-  export const productInputs = [
+  export const userInput = [
     {
       id: 1,
-      label: "Title",
+      title :"Nom :",
+      label: "nom",
       type: "text",
-      placeholder: "Apple Macbook Pro",
-    },
-    {
-      id: 2,
-      label: "Description",
-      type: "text",
-      placeholder: "Description",
+      placeholder: "Houssam",
     },
     {
       id: 3,
-      label: "Category",
+      title :"Prenom :",
+      label: "prenom",
       type: "text",
-      placeholder: "Computers",
+      placeholder: "MACHMECH",
+    },
+    {
+      id: 2,
+      title :"EMAIL :",
+      label: "email",
+      type: "text",
+      placeholder: "Email",
     },
     {
       id: 4,
-      label: "Price",
-      type: "text",
-      placeholder: "100",
+      title :"Telephone :",
+      label: "phone",
+      type: "phone",
+      placeholder: "0638757499",
     },
     {
       id: 5,
-      label: "Stock",
-      type: "text",
-      placeholder: "in stock",
+      title :"Avance :",
+      label: "amount",
+      type: "number",
+      placeholder: "500",
     },
+    {
+      id: 6,
+      title :"CIN :",
+      label: "CIN",
+      type: "text",
+      placeholder: "Cin",
+    },
+    {
+      id: 7,
+      title :"Date de naissance :",
+      label: "naissance",
+      type: "date",
+      placeholder: "01/01/2001",
+    },
+    {
+      id: 8,
+      title :"Date d'inscription :",
+      label: "inscrit",
+      type: "date",
+      placeholder: "01/01/20"
+    },
+    // {
+    //   id: 8,
+    //   title :"Date de fin de formation :",
+    //   label: "fin",
+    //   type: "date",
+    //   placeholder: "01/01/20"
+    // },
+    // {
+    //   id: 9,
+    //   title :"Type de permis:",
+    //   label: "type",
+    //   type: "text",
+    //   placeholder: "01/01/20"
+    // },
   ];

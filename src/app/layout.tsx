@@ -6,6 +6,7 @@ import Navbar from '@/components/navbar/Navbar'
 import Login from './login/page'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import { useEffect } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,12 +20,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  
   const supabase = createServerComponentClient({ cookies })
 
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -34,18 +35,19 @@ export default async function RootLayout({
               <Sidebar />
               <div className="homeContainer">
                 <Navbar />
-                {children}
+                <div className="p-4 sm:ml-64">
+
+                  {children}
+                </div>
               </div>
             </div>
           </>
-
         ) : (
           <div
             className="flex-row justify-center lg:px-96 items-center my-52  ">
-            < Login />
+            <Login />
           </div>
         )}
-
       </body>
     </html>
   )
