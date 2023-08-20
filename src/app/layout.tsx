@@ -6,7 +6,6 @@ import Navbar from '@/components/navbar/Navbar'
 import Login from './login/page'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import { useEffect } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,11 +30,11 @@ export default async function RootLayout({
       <body className={inter.className}>
         {user ? (
           <>
-            <div className="home">
+            <div className="">
               <Sidebar />
-              <div className="homeContainer">
+              <div className="">
                 <Navbar />
-                <div className="p-4 sm:ml-64">
+                <div className="sm:p-4 sm:w-4/5 sm:ml-64 w-screen  ">
 
                   {children}
                 </div>

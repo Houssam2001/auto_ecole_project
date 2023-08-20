@@ -3,36 +3,81 @@
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
-
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 const supabase2 = createServerActionClient({
-    cookies,
-  });
-  
- const createClient2 = async (clientData) => {
+  cookies,
+});
+
+const createClient2 = async (clientData) => {
   try {
     const { data, error } = await supabase
       .from("clients")
-      .insert([{ ...clientData, user_id: (await ( supabase2.auth.getUser())).data.user.id }]);
+      .insert([{ ...clientData, user_id: (await (supabase2.auth.getUser())).data.user.id }]).select();
 
     if (error) {
       throw error;
     }
-
+    await handleUpdate(data[0].id);
     return data;
   } catch (error) {
     throw error;
   }
 };
- const createTransaction = async (transaction,clientId) => {
+const createMoniteur = async (moniteurData) => {
+  try {
+    const { data, error } = await supabase
+      .from("moniteurs")
+      .insert([{ ...moniteurData ,user_id: (await (supabase2.auth.getUser())).data.user.id         }]).select();
+
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+const handleUpdate = async (clientId) => {
+  try {
+    // Fetch the client's amount_id and category_id
+    const { data: clientData, error: clientError } = await supabase
+      .from('clients')
+      .select('amount_id, category_id')
+      .eq('id', clientId)
+      .single();
+
+    if (clientError) {
+      console.error('Error fetching client data:', clientError);
+      return;
+    }
+
+    // Update the category with the new amount_id
+    const { data, error } = await supabase
+      .from('categories')
+      .update({ amount_id: clientData.amount_id })
+      .eq('id', clientData.category_id);
+
+    if (error) {
+      console.error('Error updating category:', error);
+    } else {
+      console.log('Category updated successfully:', data);
+    }
+  } catch (error) {
+    console.error('Error updating category:', error.message);
+  }
+};
+
+const createTransaction = async (amount_id,clientId,value,date) => {
   try {
     const { data, error } = await supabase
       .from("transactions")
-      .insert({transaction:transaction});
+      .insert({ value: value,date:date,amount_id:amount_id,client_id:clientId });
 
     if (error) {
       throw error;
@@ -43,7 +88,7 @@ const supabase2 = createServerActionClient({
     throw error;
   }
 };
-async function uploadFile(file,nom) {
+async function uploadFile(file, nom) {
   const { data, error } = await supabase.storage.from('machmech').upload(nom, file)
   if (error) {
     console.log(error)
@@ -53,4 +98,21 @@ async function uploadFile(file,nom) {
     return data;
   }
 }
-export {createClient2,uploadFile}
+async function getClient(id) {
+
+  const { data, error } = (await supabase.from('clients').select("*").eq('id', id).single())
+  if (error) {
+    console.log(error)
+    throw error;
+  }
+  return data;
+}
+async function getMoniteurs(){
+  const { data: moniteurs, error } = await supabase.from("moniteurs").select("*");
+  if (error) {
+    console.log(error)
+    throw error;
+  }
+  return moniteurs;
+}
+export { createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs}

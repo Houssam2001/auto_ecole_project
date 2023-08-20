@@ -1,7 +1,8 @@
 'use client';
 
-import supabase from '@/lib/supabase-browser';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { supabase } from '@/utils/supabase';
+// import supabase from '@/lib/supabase-browser';
+import {  useEffect, useMemo, useState } from 'react';
 
 
 export const AuthProvider = ({children}) => {

@@ -1,20 +1,19 @@
+'use server'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-
 import SignOut from 'src/components/SignOut';
-import createClient from 'src/lib/supabase-server';
+import { cookies } from 'next/headers'
 
 export default async function Profile() {
-  const supabase = createClient();
+  const supabase = createServerComponentClient({ cookies })
 
   const {
     data: { user },
-  } = await supabase.auth.getUser();
-
+  } = await supabase.auth.getUser()
   if (!user) {
     redirect('/');
   }
-
   return (
     <div className="card">
       <h2>User Profile</h2>
@@ -24,7 +23,7 @@ export default async function Profile() {
       <Link className="button" href="/">
         Go Home
       </Link>
-      <SignOut />
+      {/* <SignOut /> */}
     </div>
   );
 }

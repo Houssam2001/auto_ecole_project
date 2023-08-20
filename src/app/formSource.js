@@ -51,14 +51,14 @@ export const userInputs = [
       placeholder: "Houssam",
     },
     {
-      id: 3,
+      id: 2,
       title :"Prenom :",
       label: "prenom",
       type: "text",
       placeholder: "MACHMECH",
     },
     {
-      id: 2,
+      id: 3,
       title :"EMAIL :",
       label: "email",
       type: "text",
@@ -106,11 +106,49 @@ export const userInputs = [
     //   type: "date",
     //   placeholder: "01/01/20"
     // },
-    // {
-    //   id: 9,
-    //   title :"Type de permis:",
-    //   label: "type",
-    //   type: "text",
-    //   placeholder: "01/01/20"
-    // },
+   
   ];
+ export const moniteurInput = [
+    {
+      id: 1,
+      title: "Carte Moniteur :",
+      label: "carteMoni",
+      type: "text",
+      placeholder: "Carte Moniteur",
+      width: 150,
+    },
+    {
+      id: 2,
+      title: "Nom :",
+      label: "nom",
+      type: "text",
+      placeholder: "Nom",
+      width: 120,
+    },
+    {
+      id: 3,
+      title: "Prenom :",
+      label: "prenom",
+      type: "text",
+      placeholder: "Prenom",
+      width: 120,
+    },
+    {
+      id: 4,
+      title: "CIN :",
+      label: "cin",
+      type: "text",
+      placeholder: "b3212",
+      width: 100,
+    },
+    {
+      id: 6,
+      title: "Date Cap :",
+      label: "date",
+      type: "date",
+      placeholder: "Date Cap",
+      width: 150,
+    },
+
+  ];
+  

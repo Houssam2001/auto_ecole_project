@@ -8,19 +8,19 @@ const Datatable = () => {
   const supabase = createClientComponentClient()
   const [data, setData] =useState<any[]>([])
   const columns: GridColDef[] = [
-    { field: "CIN", headerName: "Cin", width: 250 },
-    { field: "nom", headerName: "nom", width: 250 },
-    { field: "prenom", headerName: "prenom", width: 250 },
-    { field: "phone", headerName: "Telephone", width: 250 },
-    { field: "inscrit", headerName: "date d'inscription", width: 250 },
+    { field: "CIN", headerName: "Cin", width: 100 },
+    { field: "nom", headerName: "nom", width: 150 },
+    { field: "prenom", headerName: "prenom", width: 150 },
+    { field: "phone", headerName: "Telephone", width: 150 },
+    { field: "inscrit", headerName: "date d'inscription", width: 150 },
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link href={`/users/${params.row.id}`} style={{ textDecoration: "none" }}>
+            <Link href={`/clients/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -43,7 +43,7 @@ const Datatable = () => {
       setData(clients);
       console.log(clients)
     } catch (error:any) {
-      console.error(error.message);
+      console.error(error);
     }
   };
   useEffect(() => {
@@ -53,12 +53,12 @@ const Datatable = () => {
     try {
       setData((prevData) => prevData.filter((item:any) => item.id !== id));
     } catch (error:any) {
-      console.error(error.message);
+      console.error(error);
     }
   };
 
   return (
-    <div className="datatable">
+    <div className="datatable  group-enabled">
       <div className="datatableTitle">
         Add New User
         <Link href="/new" className="link">

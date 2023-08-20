@@ -3,6 +3,7 @@ import Link from "next/link";
 import sidebarItems from "@/ressources/side";
 import Head from "next/head";
 import { BsHouseDoorFill } from "react-icons/bs";
+import Image from "next/image";
 
 export default function Sidebar() {
   return (
@@ -24,7 +25,7 @@ export default function Sidebar() {
                   </svg>
                 </button>
                 <a href="https://flowbite.com" class="flex ml-2 md:mr-24">
-                  <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="FlowBite Logo" />
+                  {/* <Image width={50} height={50} src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="FlowBite Logo" /> */}
                   <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Auto Ecole</span>
                 </a>
               </div>
