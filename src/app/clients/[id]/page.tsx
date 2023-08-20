@@ -1,6 +1,5 @@
 'use client'
 import TransactionsList from "@/components/transactionsList/TransactionsList";
-import { getStatus } from "@/utils/methods";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import TransactionModal from "@/components/transactionForm/TransactionForm"
@@ -197,7 +196,7 @@ export default function Profile({ params }: {
                           </div>
                         </div>
                         <div className="grid grid-cols-2">
-                          <div className="px-4 py-2 font-semibold">Date d'inscription</div>
+                          <div className="px-4 py-2 font-semibold">Date d&#39;inscription</div>
                           <div className="px-4 py-2">{client.inscrit}</div>
                         </div>
                       </div>
