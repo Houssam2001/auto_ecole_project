@@ -1,14 +1,13 @@
 'use client'
-import "./list.scss"
+// import "./list.scss"
 import Datatable from "../datatable/Datatable"
 
 const List2 = () => {
   return (
-    <div className="list">
-      <div className="listContainer">
+    <div>
+      {/* <div className="listContainer"> */}
         <Datatable/>
-        
-      </div>
+      {/* </div> */}
     </div>
 )
 }

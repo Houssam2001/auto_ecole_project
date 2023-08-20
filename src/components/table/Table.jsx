@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Image from "next/image";
 
 // Made by Moses Mwila 
 // for Zykar Solutions Limited
@@ -87,7 +88,7 @@ const List = () => {
             <TableCell className="tableCell" align="right">{row.id}</TableCell>
             <TableCell className="tableCell" align="right">
               <div className="cellWrapper">
-                <img src={row.img} alt="" className="image" />
+                {/* <Image width={50} height={50} src={row.img} alt="" className="image" /> */}
                 {row.product}
               </div>
             </TableCell>

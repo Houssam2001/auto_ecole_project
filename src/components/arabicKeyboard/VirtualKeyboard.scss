@@ -1,0 +1,58 @@
+.virtual-keyboard {
+    font-family: Arial, sans-serif;
+    display: inline-block;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+
+    .text-input {
+        margin-bottom: 10px;
+
+        input {
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    }
+
+    .keyboard {
+        //   display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 15px;
+
+        // display: flexbox;
+        grid-row: initial;
+
+        .keyboard-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .keyboard-key {
+            flex: 1;
+            padding: 5px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #f5f5f5;
+            cursor: pointer;
+            text-align: center;
+
+            &:hover {
+                background-color: #e0e0e0;
+            }
+        }
+
+        .keyboard-key.Space {
+            grid-column: span 7;
+        }
+
+        .keyboard-key.Backspace {
+            grid-column: span 3;
+        }
+    }
+}

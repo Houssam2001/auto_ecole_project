@@ -42,35 +42,113 @@ export const userInputs = [
     },
   ];
   
-  export const productInputs = [
+  export const userInput = [
     {
       id: 1,
-      label: "Title",
+      title :"Nom :",
+      label: "nom",
       type: "text",
-      placeholder: "Apple Macbook Pro",
+      placeholder: "Houssam",
     },
     {
       id: 2,
-      label: "Description",
+      title :"Prenom :",
+      label: "prenom",
       type: "text",
-      placeholder: "Description",
+      placeholder: "MACHMECH",
     },
     {
       id: 3,
-      label: "Category",
+      title :"EMAIL :",
+      label: "email",
       type: "text",
-      placeholder: "Computers",
+      placeholder: "Email",
     },
     {
       id: 4,
-      label: "Price",
-      type: "text",
-      placeholder: "100",
+      title :"Telephone :",
+      label: "phone",
+      type: "phone",
+      placeholder: "0638757499",
     },
     {
       id: 5,
-      label: "Stock",
-      type: "text",
-      placeholder: "in stock",
+      title :"Avance :",
+      label: "amount",
+      type: "number",
+      placeholder: "500",
     },
+    {
+      id: 6,
+      title :"CIN :",
+      label: "CIN",
+      type: "text",
+      placeholder: "Cin",
+    },
+    {
+      id: 7,
+      title :"Date de naissance :",
+      label: "naissance",
+      type: "date",
+      placeholder: "01/01/2001",
+    },
+    {
+      id: 8,
+      title :"Date d'inscription :",
+      label: "inscrit",
+      type: "date",
+      placeholder: "01/01/20"
+    },
+    // {
+    //   id: 8,
+    //   title :"Date de fin de formation :",
+    //   label: "fin",
+    //   type: "date",
+    //   placeholder: "01/01/20"
+    // },
+   
   ];
+ export const moniteurInput = [
+    {
+      id: 1,
+      title: "Carte Moniteur :",
+      label: "carteMoni",
+      type: "text",
+      placeholder: "Carte Moniteur",
+      width: 150,
+    },
+    {
+      id: 2,
+      title: "Nom :",
+      label: "nom",
+      type: "text",
+      placeholder: "Nom",
+      width: 120,
+    },
+    {
+      id: 3,
+      title: "Prenom :",
+      label: "prenom",
+      type: "text",
+      placeholder: "Prenom",
+      width: 120,
+    },
+    {
+      id: 4,
+      title: "CIN :",
+      label: "cin",
+      type: "text",
+      placeholder: "b3212",
+      width: 100,
+    },
+    {
+      id: 6,
+      title: "Date Cap :",
+      label: "date",
+      type: "date",
+      placeholder: "Date Cap",
+      width: 150,
+    },
+
+  ];
+  
