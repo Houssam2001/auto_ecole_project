@@ -20,6 +20,18 @@ const nextConfig = {
         port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.australianageingagenda.com.au',
+        port: '',
+        // pathname: '/account123/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars2.githubusercontent.com',
+        port: '',
+        // pathname: '/account123/**',
+      },
     ],
   },
   experimental: {

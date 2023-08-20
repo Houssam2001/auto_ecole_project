@@ -107,6 +107,15 @@ async function getClient(id) {
   }
   return data;
 }
+async function getMoniteur(id) {
+
+  const { data: moniteur, error } = (await supabase.from('moniteurs').select("*").eq('id', id).single())
+  if (error) {
+    console.log(error)
+    throw error;
+  }
+  return moniteur;
+}
 async function getMoniteurs(){
   const { data: moniteurs, error } = await supabase.from("moniteurs").select("*");
   if (error) {
@@ -115,4 +124,4 @@ async function getMoniteurs(){
   }
   return moniteurs;
 }
-export { createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs}
+export { createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs,getMoniteur}

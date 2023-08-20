@@ -6,8 +6,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import MoniteurModal from "./MoniteurModal";
 import {  BsFillCheckCircleFill, BsFillXCircleFill } from "react-icons/bs";
 import { green, red } from "@mui/material/colors";
-import dynamic from "next/dynamic";
-import { getMoniteurs } from "@/utils/supabase";
 
 const Moniteurstable = () => {
     const supabase = createClientComponentClient()
@@ -55,27 +53,28 @@ const Moniteurstable = () => {
             },
         },
     ];
-    const fetchMoniteurs = async () => {
+    const fetchClients = async () => {
         try {
-            const moniteurs = await getMoniteurs();
-            setData(moniteurs);
-            console.log(moniteurs);
-        } catch (error: any) {
-            console.error(error);
+          const  {data:clients,error}  = await supabase.from("moniteurs").select("*");
+          if (error)   {
+            throw new Error("Error fetching clients.");
+          }
+          setData(clients);
+          console.log(clients)
+        } catch (error:any) {
+          console.error(error);
         }
-    };
-
-    useEffect(() => {
-        fetchMoniteurs();
-    }, [data,supabase]);
-
-    const handleDelete = async (id: any) => {
+      };
+      useEffect(() => {
+        fetchClients();
+      }, [[supabase, setData]]);
+      const handleDelete = async (id:any) => {
         try {
-            setData((prevData) => prevData.filter((item: any) => item.id !== id));
-        } catch (error: any) {
-            console.error(error);
+          setData((prevData) => prevData.filter((item:any) => item.id !== id));
+        } catch (error:any) {
+          console.error(error);
         }
-    };
+      };
 
     return (
         <div className="datatable">
