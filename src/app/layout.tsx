@@ -31,12 +31,11 @@ export default async function RootLayout({
       <body className={inter.className}>
         {user ? (
           <>
-            <div className="">
+              <div >
+                {/* <Navbar /> */}
+              <div >
               <Sidebar />
-              <div className="">
-                <Navbar />
-                <div className="sm:p-4 sm:w-4/5 sm:ml-64 w-screen  ">
-
+                <div className="sm:p-4 mt-16 sm:w-4/5 sm:ml-64 w-screen  ">
                   {children}
                 </div>
               </div>

@@ -17,7 +17,7 @@ const Navbar = () => {
   const {dispatch} = useContext(DarkModeContext)
 
   return (
-    <div className="navbar">
+    <div className="navbar mt-14">
       <div className="wrapper">
         <div className="search">
           <input type="text" placeholder="Search...." />
@@ -46,7 +46,7 @@ const Navbar = () => {
             <ListOutLinedIcon className="icon" />
           </div>
           <div className="item">
-           {/* <Image width={50} height={50} src="https://images.pexels.com/photos/1967902/pexels-photo-1967902.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" className="avatar"/> */}
+           <Image width={50} height={50} src="https://images.pexels.com/photos/1967902/pexels-photo-1967902.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" className="avatar"/>
           </div>
           <div className="item">
           <LogoutButton />
