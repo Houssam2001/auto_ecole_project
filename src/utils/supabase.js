@@ -41,6 +41,20 @@ const createMoniteur = async (moniteurData) => {
     throw error;
   }
 };
+const createCar = async (carData) => {
+  try {
+    const { data, error } = await supabase
+      .from("voitures")
+      .insert([{ ...carData ,user_id: (await (supabase2.auth.getUser())).data.user.id         }]).select();
+
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 
 const handleUpdate = async (clientId) => {
@@ -124,4 +138,4 @@ async function getMoniteurs(){
   }
   return moniteurs;
 }
-export { createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs,getMoniteur}
+export { createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs,getMoniteur,createCar}

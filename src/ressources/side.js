@@ -44,7 +44,7 @@ const sidebarItems = [
         title: 'Ecole/المؤسسة', sub: [
             { text: "Auto", icon: <BsFillPersonBadgeFill />, linkTo: "/" },
             { text: 'Moniteurs', icon: <BsPersonBoundingBox /> ,linkTo: "/moniteurs"},
-            { text: 'Voitures', icon: <BsCarFrontFill />,linkTo: "/" },
+            { text: 'Voitures', icon: <BsCarFrontFill />,linkTo: "/voitures" },
         ],
     }
 ];

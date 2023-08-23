@@ -38,6 +38,12 @@ const nextConfig = {
         port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.imagin.studio',
+        port: '',
+        // pathname: '/account123/**',
+      },
     ],
   },
   experimental: {
