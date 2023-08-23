@@ -11,7 +11,18 @@ const supabase = createClient(
 const supabase2 = createServerActionClient({
   cookies,
 });
-
+const updateTable=async(formData,tablename,id)=>{
+    const { data: formDataResult, error: formDataError } = await supabase
+    .from(tablename)
+    .update([
+        {
+            ...formData,
+        },
+    ]).eq('id', id).select();
+   
+    return{ formDataResult,formDataError};
+  
+}
 const createClient2 = async (clientData) => {
   try {
     const { data, error } = await supabase
@@ -138,4 +149,4 @@ async function getMoniteurs(){
   }
   return moniteurs;
 }
-export { createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs,getMoniteur,createCar}
+export {updateTable, createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs,getMoniteur,createCar}

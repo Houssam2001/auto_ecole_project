@@ -8,6 +8,8 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { GiSteeringWheel } from 'react-icons/gi'
 import { RiOilFill } from 'react-icons/ri'
 import { FaOilCan } from 'react-icons/fa'
+import { createClient } from '@supabase/supabase-js'
+import { updateTable } from '@/utils/supabase'
 const caveat = Caveat({
     subsets: ['latin'],
     variable: '--font-caveat',
@@ -38,6 +40,10 @@ export default function UnconventionalTabs({ params }: {
         vidange_boite: false,
         vidange_frein: false,
         vidange_assiste: false,
+        filtre_huile: false,
+        filtre_carburant: false,
+        liquide_refroidissement: false,
+        filtre_air: false
     });
     const [visiteFormValues, setVisiteFormValues] = useState({
         date: "",
@@ -76,6 +82,9 @@ export default function UnconventionalTabs({ params }: {
         event.preventDefault();
         try {
             let formData = {};
+            let tableName = ''; // Name of the table to update
+            let foreignKey = ''; // Corresponding foreign key column
+
             if (formType === "vidange") {
                 formData = {
                     date: vidangeFormValues.date,
@@ -86,28 +95,39 @@ export default function UnconventionalTabs({ params }: {
                     vidange_boite: vidangeFormValues.vidange_boite,
                     vidange_frein: vidangeFormValues.vidange_frein,
                     vidange_assiste: vidangeFormValues.vidange_assiste,
+                    filtre_huile: vidangeFormValues.filtre_huile,
+                    filtre_carburant: vidangeFormValues.filtre_carburant,
+                    liquide_refroidissement: vidangeFormValues.liquide_refroidissement,
+                    filtre_air: vidangeFormValues.filtre_air
                 };
+                tableName = 'vidange';
+                foreignKey = 'vidange_id';
+
             } else if (formType === "visite") {
                 formData = {
                     date: visiteFormValues.date,
                     centre: visiteFormValues.centre,
                     periodicitee: visiteFormValues.periodicitee,
                 };
+                tableName = 'visite';
+                foreignKey = 'visite_id';
+
             }
+            else if (formType === "assurance") {
+                formData = {
+                    date: assuranceFormValues.date,
+                    societe: assuranceFormValues.societe,
+                    periodicitee: assuranceFormValues.periodicitee,
+                };
+                tableName = 'assurance';
+                foreignKey = 'assurance_id';
 
-            const { data, error } = await supabase.from(formType).insert([
-                {
-                    ...formData,
-                    voiture_id: voiture.id,
-                    // user_id: supabase.auth.user().id,
-                },
-            ]);
-
-            if (error) {
-                console.error(`Error inserting ${formType} form data:`, error.message);
+            }
+            const updateResponse = await updateTable(formData, tableName, voiture[foreignKey]);
+            if (updateResponse.formDataError) {
+                console.error(`Error updating ${formType} data:`, updateResponse.formDataError.message);
             } else {
-                console.log(`${formType} form data inserted successfully:`, data);
-                // Clear form values after successful submission
+                console.log(`${formType} form data inserted successfully:`, updateResponse.formDataResult);
                 if (formType === "vidange") {
                     setVidangeFormValues({
                         date: "",
@@ -118,6 +138,10 @@ export default function UnconventionalTabs({ params }: {
                         vidange_boite: false,
                         vidange_frein: false,
                         vidange_assiste: false,
+                        filtre_huile: false,
+                        filtre_carburant: false,
+                        liquide_refroidissement: false,
+                        filtre_air: false
                     });
                 } else if (formType === "visite") {
                     setVisiteFormValues({
@@ -126,11 +150,21 @@ export default function UnconventionalTabs({ params }: {
                         periodicitee: "",
                     });
                 }
+                else if (formType === "assurance") {
+                    setAssuranceFormValues({
+                        date: "",
+                        societe: "",
+                        periodicitee: "",
+                    });
+                }
             }
-        } catch (error: any) {
-            console.error(`Error inserting ${formType} form data:`, error);
+        } catch (error) {
+            console.error(`Error handling ${formType} form submission:`, error);
+
         }
     };
+
+
     const fetchVoiture = async () => {
         try {
             let { data: voitureData, error } = await supabase
@@ -152,6 +186,13 @@ export default function UnconventionalTabs({ params }: {
             console.error(error.message);
         }
     };
+    const handleCheckboxChange = (fieldName: any, newValue: any) => {
+        setVidangeFormValues(prevValues => ({
+            ...prevValues,
+            [fieldName]: newValue,
+        }));
+    };
+
     const tabs: Tab[] = [
         {
             title: 'Assurance /التامين',
@@ -366,35 +407,51 @@ export default function UnconventionalTabs({ params }: {
 
                                                                 <div className="flex mb-2 justify-between">
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
                                                                             <GiSteeringWheel className="mr-1 w-5 h-5" /> Huile direction/assistée - زيت التوجيه
-                                                                            <input type="checkbox" className="mr-4 ml-4 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-4 ml-4 w-5 h-5"
+                                                                                checked={vidangeFormValues.vidange_assiste}
+                                                                                onChange={(e) => handleCheckboxChange('vidange_assiste', e.target.checked)}
+                                                                            />
+                                                                        </label>
                                                                     </div>
-
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
-                                                                            <input type="checkbox" className="mr-3 ml-4 w-5 h-5" /> Huile Moteur - زيت المحرك<RiOilFill className="ml-2 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-3 ml-4 w-5 h-5"
+                                                                                checked={vidangeFormValues.vidange_moteur}
+                                                                                onChange={(e) => handleCheckboxChange('vidange_moteur', e.target.checked)}
+                                                                            /> Huile Moteur - زيت المحرك
+                                                                            <RiOilFill className="ml-2 w-5 h-5" />
+                                                                        </label>
                                                                     </div>
                                                                 </div>
 
                                                                 <div className="flex mb-2 justify-between">
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
                                                                             <GiSteeringWheel className="mr-1 w-5 h-5" /> Huile Boite/Trans - زيت علبة السرعات
-                                                                            <input type="checkbox" className="mr-3 ml-4 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-3 ml-4 w-5 h-5"
+                                                                                checked={vidangeFormValues.vidange_boite}
+                                                                                onChange={(e) => handleCheckboxChange('vidange_boite', e.target.checked)}
+                                                                            />
+                                                                        </label>
                                                                     </div>
-
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
-                                                                            <input type="checkbox" className="mr-3 ml-4 w-5 h-5 items-center" /> Huile Frein - زيت الفرامل <FaOilCan className="ml-2 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-3 ml-4 w-5 h-5"
+                                                                                checked={vidangeFormValues.vidange_frein}
+                                                                                onChange={(e) => handleCheckboxChange('vidange_frein', e.target.checked)}
+                                                                            /> Huile Frein - زيت الفرامل
+                                                                            <FaOilCan className="ml-2 w-5 h-5" />
+                                                                        </label>
                                                                     </div>
                                                                 </div>
 
@@ -405,35 +462,51 @@ export default function UnconventionalTabs({ params }: {
 
                                                                 <div className="flex mb-2 justify-between">
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
                                                                             <GiSteeringWheel className="mr-1 w-5 h-5" /> Filtre Huile - مصفاة النفط
-                                                                            <input type="checkbox" className="mr-3 ml-14 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-3 ml-14 w-5 h-5"
+                                                                                checked={vidangeFormValues.filtre_huile}
+                                                                                onChange={(e) => handleCheckboxChange('filtre_huile', e.target.checked)}
+                                                                            />
+                                                                        </label>
                                                                     </div>
-
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
-                                                                            <input type="checkbox" className="mr-3 ml-3 w-5 h-5" /> Filtre Carburant - مرشح الوقود<GiSteeringWheel className="ml-2 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-3 ml-3 w-5 h-5"
+                                                                                checked={vidangeFormValues.filtre_carburant}
+                                                                                onChange={(e) => handleCheckboxChange('filtre_carburant', e.target.checked)}
+                                                                            /> Filtre Carburant - مرشح الوقود
+                                                                            <GiSteeringWheel className="ml-2 w-5 h-5" />
+                                                                        </label>
                                                                     </div>
                                                                 </div>
 
                                                                 <div className="flex mb-2 justify-between">
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
                                                                             <GiSteeringWheel className="mr-1 w-5 h-5" /> liquide de refroidissement - محلول التبريد
-                                                                            <input type="checkbox" className="mr-3 ml-3 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-3 ml-3 w-5 h-5"
+                                                                                checked={vidangeFormValues.liquide_refroidissement}
+                                                                                onChange={(e) => handleCheckboxChange('liquide_refroidissement', e.target.checked)}
+                                                                            />
+                                                                        </label>
                                                                     </div>
-
                                                                     <div className="flex mb-2 justify-between">
-                                                                        <div className="text-sm font-medium text-gray-700 flex items-center">
-                                                                            <input type="checkbox" className="mr-14 ml-3 w-5 h-5" /> Filtre à air - مصفاة هواء <GiSteeringWheel className="ml-2 w-5 h-5" />
-                                                                        </div>
-                                                                        <div className="text-sm font-medium text-gray-700"></div>
+                                                                        <label className="text-sm font-medium text-gray-700 flex items-center">
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                className="mr-14 ml-3 w-5 h-5"
+                                                                                checked={vidangeFormValues.filtre_air}
+                                                                                onChange={(e) => handleCheckboxChange('filtre_air', e.target.checked)}
+                                                                            /> Filtre à air - مصفاة هواء
+                                                                            <GiSteeringWheel className="ml-2 w-5 h-5" />
+                                                                        </label>
                                                                     </div>
                                                                 </div>
                                                             </>
