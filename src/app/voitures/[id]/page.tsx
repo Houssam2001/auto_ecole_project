@@ -349,7 +349,7 @@ export default function UnconventionalTabs({ params }: {
                                                     <h2 className="mb-3 text-lg font-medium tracking-tighter text-neutral-600">Short title</h2>
                                                     <p className="text-base leading-relaxed text-gray-400">{voiture.model}.</p>
                                                     <a href={`/voitures-pdf/${voiture.id}`} className="inline-flex items-center mt-6 font-semibold text-blue-500 md:mb-2 lg:mb-0 hover:text-neutral-600" title="read more">
-                                                        Telecharger l'affiche d'{voiture.categorie}
+                                                        Telecharger l&apos;affiche d&apos;{voiture.categorie}
                                                         <svg className="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                                                             <path fill="none" d="M0 0h24v24H0z"></path>
                                                             <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path>
