@@ -11,7 +11,7 @@ interface CarCardProps {
 }
 
 const CarCard = ({ car }: CarCardProps) => {
-    const { categorie, assurance, matricule, model, marque, user_id, vidange, visite } = car;
+    const { categorie, assurance, matricule, model, marque, user_id, vidange, visite,image } = car;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +32,7 @@ const CarCard = ({ car }: CarCardProps) => {
             </p>
 
             <div className="relative w-full h-40 my-3 object-contain group">
-                <Image src={generateCarImageUrl(car)} alt="car model" fill priority className="object-contain" />
+                <Image src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${image}`} alt="image d'auto" fill priority className="object-contain"  />
                 <div className="absolute  inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <a
                         href="#_"

@@ -1,34 +1,43 @@
 import { carInput, moniteurInput } from '@/app/formSource';
+import { supabase } from '@/utils/client';
 import { createCar } from '@/utils/supabase';
 // import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from "uuid";
 
 const CarModal = () => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [file, setfile] = useState([]);
+
     // const router = useRouter()
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
     const [CarData, setCarData] = useState();
-    
+    const handleFileSelected = (e) => {
+        setfile(e.target.files[0]);
+    };
     const handleChange = (e) => {
         setCarData({ ...CarData, [e.target.name]: e.target.value });
     };
-    const handleTransactionSubmit = async (e) => {
+    const handleCarSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await createCar(CarData);
+            const filename = `${uuidv4()}`;
+            const { data, error } = await supabase.storage.from('machmech').upload(filename, file)
+            const response = await createCar(CarData,filename);
             console.log("Car created successfully", response);
             // router.refresh()
             toggleModal();
+            if(error){
+                console.log (error)
+            }
         } catch (error) {
             console.log(error)
         }
     };
-
     return (
-        <div className=''>
-            
+        <div >
             <button
                 data-modal-target="authentication-modal"
                 data-modal-toggle="authentication-modal"
@@ -59,7 +68,7 @@ const CarModal = () => {
                                 <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                                     Ajouter un Car
                                 </h3>
-                                <form onSubmit={handleTransactionSubmit} className="space-y-2">
+                                <form onSubmit={handleCarSubmit} className="space-y-2">
                                     <div>
                                         <div className="items-center w-full ">
                                             {carInput.map((input) => (
@@ -82,6 +91,8 @@ const CarModal = () => {
                                         <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
                                             Car
                                         </h3>
+                                        <input type="file" name="image" onChange={handleFileSelected} />
+                                        {/* <button type="submit">Upload image</button> */}
                                     </div>
                                     <button
                                         type="submit"

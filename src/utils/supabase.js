@@ -2,26 +2,29 @@
 'use server'
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { createClient } from "@supabase/supabase-js";
+import { Console } from "console";
 import { cookies } from "next/headers";
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabase } from "./client";
+
+// const supabase = createClient(
+//   process.env.NEXT_PUBLIC_SUPABASE_URL,
+//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// );
 
 const supabase2 = createServerActionClient({
   cookies,
 });
-const updateTable=async(formData,tablename,id)=>{
-    const { data: formDataResult, error: formDataError } = await supabase
+const updateTable = async (formData, tablename, id) => {
+  const { data: formDataResult, error: formDataError } = await supabase
     .from(tablename)
     .update([
-        {
-            ...formData,
-        },
+      {
+        ...formData,
+      },
     ]).eq('id', id).select();
-   
-    return{ formDataResult,formDataError};
-  
+
+  return { formDataResult, formDataError };
+
 }
 const createClient2 = async (clientData) => {
   try {
@@ -42,7 +45,7 @@ const createMoniteur = async (moniteurData) => {
   try {
     const { data, error } = await supabase
       .from("moniteurs")
-      .insert([{ ...moniteurData ,user_id: (await (supabase2.auth.getUser())).data.user.id         }]).select();
+      .insert([{ ...moniteurData, user_id: (await (supabase2.auth.getUser())).data.user.id }]).select();
 
     if (error) {
       throw error;
@@ -52,22 +55,20 @@ const createMoniteur = async (moniteurData) => {
     throw error;
   }
 };
-const createCar = async (carData) => {
+const createCar = async (carData,filename) => {
   try {
+    // let response=uploadFile(file,filename+'.png')
     const { data, error } = await supabase
       .from("voitures")
-      .insert([{ ...carData ,user_id: (await (supabase2.auth.getUser())).data.user.id         }]).select();
-
-    if (error) {
-      throw error;
-    }
-    return data;
+      .insert([{ ...carData, user_id: (await (supabase2.auth.getUser())).data.user.id, 'image': filename }]).select();
+    if (uploadError) {
+      console.log(uploadError) ;
+    };
+    console.log (data);
   } catch (error) {
-    throw error;
+     console.log(error);
   }
 };
-
-
 const handleUpdate = async (clientId) => {
   try {
     // Fetch the client's amount_id and category_id
@@ -98,11 +99,11 @@ const handleUpdate = async (clientId) => {
   }
 };
 
-const createTransaction = async (amount_id,clientId,value,date) => {
+const createTransaction = async (amount_id, clientId, value, date) => {
   try {
     const { data, error } = await supabase
       .from("transactions")
-      .insert({ value: value,date:date,amount_id:amount_id,client_id:clientId });
+      .insert({ value: value, date: date, amount_id: amount_id, client_id: clientId });
 
     if (error) {
       throw error;
@@ -141,7 +142,7 @@ async function getMoniteur(id) {
   }
   return moniteur;
 }
-async function getMoniteurs(){
+async function getMoniteurs() {
   const { data: moniteurs, error } = await supabase.from("moniteurs").select("*");
   if (error) {
     console.log(error)
@@ -149,4 +150,4 @@ async function getMoniteurs(){
   }
   return moniteurs;
 }
-export {updateTable, createClient2, uploadFile, getClient ,createTransaction,createMoniteur,getMoniteurs,getMoniteur,createCar}
+export { updateTable, createClient2, uploadFile, getClient, createTransaction, createMoniteur, getMoniteurs, getMoniteur, createCar }

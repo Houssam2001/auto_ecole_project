@@ -10,7 +10,8 @@ export interface CarProps {
     user_id: number;
     assurance: number;
     vidange: number;
-    visite: number;    
+    visite: number; 
+    image:string;   
 }
 
 export interface FilterProps {

@@ -23,7 +23,7 @@ export default function Voitures({ searchParams }: HomeProps) {
         }
 
         fetchCars();
-    }, [searchParams]);
+    }, [allCars,searchParams]);
 
     if (isLoading) {
         return <div>Loading...</div>;

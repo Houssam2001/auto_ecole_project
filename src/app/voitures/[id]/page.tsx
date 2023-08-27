@@ -28,7 +28,7 @@ export default function UnconventionalTabs({ params }: {
         id: string;
     };
 }) {
-    const [voiture, setVoiture] = useState<any | null>(null); // Initialize state with null
+    const [voiture, setVoiture] = useState<any | null>(); // Initialize state with null
 
     const supabase = createClientComponentClient();
     const [vidangeFormValues, setVidangeFormValues] = useState({
@@ -185,6 +185,7 @@ export default function UnconventionalTabs({ params }: {
         } catch (error: any) {
             console.error(error.message);
         }
+
     };
     const handleCheckboxChange = (fieldName: any, newValue: any) => {
         setVidangeFormValues(prevValues => ({
@@ -232,6 +233,81 @@ export default function UnconventionalTabs({ params }: {
         };
 
     }, [params])
+    useEffect(() => {
+        if (voiture) {
+            const fetchVidangeData = async () => {
+                try {
+                    let { data: vidangeResponse, error } = await supabase
+                        .from("vidange")
+                        .select("*")
+                        .eq("id", voiture.vidange_id)
+                        .single();
+
+                    if (error) {
+                        console.error(error);
+                    } if (vidangeResponse) {
+                        console.log(vidangeResponse)
+                        setVidangeFormValues({
+                            date: vidangeResponse.date,
+                            kilometrage: vidangeResponse.kilometrage,
+                            huile: vidangeResponse.huile,
+                            periodicitee: vidangeResponse.periodicitee,
+                            vidange_moteur: vidangeResponse.vidange_moteur,
+                            vidange_boite: vidangeResponse.vidange_boite,
+                            vidange_frein: vidangeResponse.vidange_frein,
+                            vidange_assiste: vidangeResponse.vidange_assiste,
+                            filtre_huile: vidangeResponse.filtre_huile,
+                            filtre_carburant: vidangeResponse.filtre_carburant,
+                            liquide_refroidissement: vidangeResponse.liquide_refroidissement,
+                            filtre_air: vidangeResponse.filtre_air,
+                        });
+                    }
+                } catch (error) {
+                    throw error;
+                }
+            };
+
+            const fetchVisiteData = async () => {
+                const { data, error } = await supabase
+                    .from("visite")
+                    .select("*")
+                    .eq("id", voiture.visite_id)
+                    .maybeSingle();
+                if (error) {
+                    console.error(error);
+                } else {
+                    setVisiteFormValues({
+                        date: data?.date,
+                        centre: data?.centre,
+                        periodicitee: data?.periodicitee,
+                    });
+                }
+            };
+
+            const fetchAssuranceData = async () => {
+                const { data, error } = await supabase
+                    .from("assurance")
+                    .select("*")
+                    .eq("id", voiture.assurance_id)
+                    .maybeSingle();
+                if (error) {
+                    console.error(error);
+                } else {
+                    setAssuranceFormValues({
+                        date: data?.date,
+                        societe: data?.societe,
+                        periodicitee: data?.periodicitee,
+                    });
+                }
+            };
+
+            fetchVidangeData();
+            fetchVisiteData();
+            fetchAssuranceData();
+        }
+    }, [voiture, supabase]);
+
+
     return (
         <>
             {voiture ? (
@@ -246,7 +322,7 @@ export default function UnconventionalTabs({ params }: {
 
                                             <div className="absolute rounded-full bg-fuchsia-300 -bottom-24 right-20 w-72 h-72 mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
                                             <div className="relative">
-                                                <img className="object-cover object-center mx-auto rounded-lg shadow-2xl" alt="hero" src="/assets/images/placeholders/squareCard.png" />
+                                                <img className="object-cover object-center mx-auto rounded-lg shadow-2xl" alt="hero" src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${voiture.image}`} />
                                             </div>
                                         </div>
                                     </div>
@@ -272,13 +348,14 @@ export default function UnconventionalTabs({ params }: {
                                                 <dd className="flex-grow">
                                                     <h2 className="mb-3 text-lg font-medium tracking-tighter text-neutral-600">Short title</h2>
                                                     <p className="text-base leading-relaxed text-gray-400">{voiture.model}.</p>
-                                                    <a href="#" className="inline-flex items-center mt-6 font-semibold text-blue-500 md:mb-2 lg:mb-0 hover:text-neutral-600" title="read more">
-                                                        Learn More
+                                                    <a href={`/voitures-pdf/${voiture.id}`} className="inline-flex items-center mt-6 font-semibold text-blue-500 md:mb-2 lg:mb-0 hover:text-neutral-600" title="read more">
+                                                        Telecharger l'affiche d'{voiture.categorie}
                                                         <svg className="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                                                             <path fill="none" d="M0 0h24v24H0z"></path>
                                                             <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path>
                                                         </svg>
                                                     </a>
+
                                                 </dd>
                                             </div>
                                             <div>

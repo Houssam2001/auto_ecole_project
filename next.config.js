@@ -44,6 +44,12 @@ const nextConfig = {
         port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'bkvsahkfjyxfeibvwrpm.supabase.co',
+        port: '',
+        // pathname: '/account123/**',
+      },
     ],
   },
   experimental: {
