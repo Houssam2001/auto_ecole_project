@@ -43,11 +43,11 @@ async function createInvoicePDF(transactionId) {
   const clientSectionY = 10;
 
   // Invoice for the Client
-  doc.text('Auto École XYZ', clientSectionX, clientSectionY);
-  doc.text('123 Avenue des Élèves', clientSectionX, clientSectionY + 10);
-  doc.text('75001 Paris', clientSectionX, clientSectionY + 20);
+  // doc.text('Auto École XYZ', clientSectionX, clientSectionY);
+  // doc.text('123 Avenue des Élèves', clientSectionX, clientSectionY + 10);
+  // doc.text('75001 Paris', clientSectionX, clientSectionY + 20);
 
-  doc.text('FACTURE CLIENT', clientSectionX, clientSectionY + 40);
+
   doc.text(`Candidat\n${candidateData.nom} ${candidateData.prenom}\n${candidateData.Adresse}\n${candidateData.city}\nTél: ${candidateData.phone}\nDate de facture ${formattedDate}`, clientSectionX, clientSectionY + 50);
 
   const tableDataClient = [
@@ -81,31 +81,6 @@ async function createInvoicePDF(transactionId) {
   // doc.text('FACTURE DIRECTEUR', 220, 50);
   // doc.text('Auto École XYZ\nDirecteur: M. Jean Dupont', 220, 60);
 
-  const tableDataDirector = [
-    ['DESCRIPTION', 'QUANTITÉ', 'PRIX UNITÉ', 'MONTANT'],
-    [transactionData.service, 1, `${transactionData.unit_price}€`, `${transactionData.total_amount}€`],
-    ['TOTAL À PAYER', '', '', `${transactionData.total_amount}€`],
-  ];
-
-//   doc.autoTable({
-    
-//     head: [tableDataDirector[0]],
-//     body: tableDataDirector.slice(1),
-//     startY: 120,
-//     // startX: 180, // Adjust the startX position
-//     theme: 'plain',
-
-//     styles: {
-//       fontSize: 10,
-//       textColor: [0, 0, 0],
-//     },
-//     columnStyles: {
-//       0: { cellWidth: 40 },
-//       1: { cellWidth: 40 },
-//       2: { cellWidth: 40 },
-//       3: { cellWidth: 40 },
-//     },
-//   });
 const clientSignatureBoxX = 10;
 const clientSignatureBoxY = doc.autoTable.previous.finalY + 10; // Adjust Y position as needed
 const signatureBoxWidth = 100;
@@ -119,7 +94,12 @@ const directorSignatureBoxY = doc.autoTable.previous.finalY + 10; // Adjust Y po
 
 doc.rect(directorSignatureBoxX, directorSignatureBoxY, signatureBoxWidth, signatureBoxHeight);
 doc.text('Signature Directeur', directorSignatureBoxX + 10, directorSignatureBoxY + 20);
-
+const footerText = 'Auto-École XYZ  123 Avenue des Élèves 75001 Paris   Tél: 01 XX XX XX XX   Email: contact@autoecole.xyz  Site web: www.autoecole.xyz';
+const footerX = 10;
+const footerY = doc.internal.pageSize.getHeight() - 20;
+doc.text(footerText, footerX, footerY);
+doc.setFont('bold').setFontSize(20);
+doc.text('FACTURE CLIENT', clientSectionX+120, clientSectionY,); 
   // Save the PDF to a buffer
   return new Promise(resolve => {
     resolve(doc.output('arraybuffer'));
