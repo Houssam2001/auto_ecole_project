@@ -1,3 +1,4 @@
+
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { format } from 'date-fns';
 import fr from 'date-fns/locale/fr';
@@ -38,68 +39,114 @@ async function createInvoicePDF(transactionId) {
   });
   doc.setFontSize(12);
 
-  // Set position for the client section
+  // Client Section
   const clientSectionX = 10;
   const clientSectionY = 10;
+  doc.text(`Candidat
+${candidateData.nom} ${candidateData.prenom}
+${candidateData.Adresse}
+${candidateData.city}
+Tél: ${candidateData.phone}
+Date de facture: ${formattedDate}`, clientSectionX, clientSectionY + 20);
 
-  // Invoice for the Client
-  // doc.text('Auto École XYZ', clientSectionX, clientSectionY);
-  // doc.text('123 Avenue des Élèves', clientSectionX, clientSectionY + 10);
-  // doc.text('75001 Paris', clientSectionX, clientSectionY + 20);
+const tableDataClient = [
+  ['Date', 'Montant', 'Montant Global'],
+  [formattedDate, 1, `${transactionData.value}€`, `${candidateData.amount}€`]
+];
+
+const pageWidth = doc.internal.pageSize.getWidth();
+const tableWidth = pageWidth / 2.5; // half of the page
+
+doc.autoTable({
+  columns: [{ header: 'Date' }, { header: 'Montant' }, { header: 'Montant Global' }],
+  body: tableDataClient.slice(1),
+  startY: 80,
+  tableWidth: tableWidth-10, // use the calculated table width
+  theme: 'grid',
+  styles: {
+      fontSize: 10,
+      textColor: [0, 0, 0],
+  },
+  didDrawPage: function (data) {
+      doc.setFontSize(20);
+      doc.setTextColor(40);
+  }
+});
 
 
-  doc.text(`Candidat\n${candidateData.nom} ${candidateData.prenom}\n${candidateData.Adresse}\n${candidateData.city}\nTél: ${candidateData.phone}\nDate de facture ${formattedDate}`, clientSectionX, clientSectionY + 50);
+  // Client Signature in Client Section
+  const clientSignatureBoxX = clientSectionX;
+  const clientSignatureBoxY = doc.autoTable.previous.finalY + 10;
+  const signatureBoxWidth = 80;
+  const signatureBoxHeight = 40;
 
-  const tableDataClient = [
-    ['DESCRIPTION', 'QUANTITÉ', 'PRIX UNITÉ', 'MONTANT'],
-    [transactionData.service, 1, `${transactionData.unit_price}€`, `${transactionData.total_amount}€`],
-    ['TOTAL À PAYER', '', '', `${transactionData.total_amount}€`],
-  ];
- 
+  // doc.rect(clientSignatureBoxX, clientSignatureBoxY, signatureBoxWidth, signatureBoxHeight);
+  doc.text('Signature Client', clientSignatureBoxX , clientSignatureBoxY + signatureBoxHeight - 5);
+
+  // Director Signature in Client Section
+  const directorSignatureBoxXClientSide = clientSignatureBoxX + 90;  // Positioned next to Client's signature
+  const directorSignatureBoxYClientSide = doc.autoTable.previous.finalY + 10;
+
+  // doc.rect(directorSignatureBoxXClientSide, directorSignatureBoxYClientSide, signatureBoxWidth, signatureBoxHeight);
+  doc.text('Signature Directeur', directorSignatureBoxXClientSide , directorSignatureBoxYClientSide + signatureBoxHeight - 5);
+
+  // Director Section
+  const directorSectionX = 170;
+  doc.text(`Candidat
+${candidateData.nom} ${candidateData.prenom}
+${candidateData.Adresse}
+${candidateData.city}
+Tél: ${candidateData.phone}`, directorSectionX, clientSectionY + 20);
+
   doc.autoTable({
-    head: [tableDataClient[0]],
+    columns: [{ header: 'DESCRIPTION' }, { header: 'QUANTITÉ' }, { header: 'PRIX UNITÉ' }, { header: 'MONTANT' }],
     body: tableDataClient.slice(1),
-    startY: 90,
-    theme: 'plain',
+    startY: 80,
+    innerWidth:20,
+    theme: 'grid',
+  tableWidth: tableWidth-10, // use the calculated table width
+
     styles: {
       fontSize: 10,
       textColor: [0, 0, 0],
     },
-    columnStyles: {
-      0: { cellWidth: 40 },
-      1: { cellWidth: 40 },
-      2: { cellWidth: 40 },
-      3: { cellWidth: 40 },
-    },
+    margin: {left: 170}, 
+    // startX: ,
+    didDrawPage: function (data) {
+      doc.setFontSize(20);
+      doc.setTextColor(40);
+    }
+
   });
 
-  // Invoice for the Director
-  // doc.text('Auto École XYZ', 220, 10);
-  // doc.text('123 Avenue des Élèves', 220, 20);
-  // doc.text('75001 Paris', 220, 30);
+  // Client Signature in Director Section
+  const directorClientSignatureBoxX = directorSectionX;
+  const directorClientSignatureBoxY = doc.autoTable.previous.finalY + 10;
 
-  // doc.text('FACTURE DIRECTEUR', 220, 50);
-  // doc.text('Auto École XYZ\nDirecteur: M. Jean Dupont', 220, 60);
+  // doc.rect(directorClientSignatureBoxX, directorClientSignatureBoxY, tableWidth-30, signatureBoxHeight);
+  doc.text('Signature Client', directorClientSignatureBoxX , directorClientSignatureBoxY + signatureBoxHeight - 5);
 
-const clientSignatureBoxX = 10;
-const clientSignatureBoxY = doc.autoTable.previous.finalY + 10; // Adjust Y position as needed
-const signatureBoxWidth = 100;
-const signatureBoxHeight = 40;
+  // Director Signature in Director Section
+  const directorSignatureBoxX = directorSectionX + 90;  // Positioned next to Client's signature
+  const directorSignatureBoxY = doc.autoTable.previous.finalY + 10;
 
-doc.rect(clientSignatureBoxX, clientSignatureBoxY, signatureBoxWidth, signatureBoxHeight);
-doc.text('Signature Client', clientSignatureBoxX + 10, clientSignatureBoxY + 20);
+  // doc.rect(directorSignatureBoxX, directorSignatureBoxY, tableWidth, signatureBoxHeight);
+  doc.text('Signature Directeur', directorSignatureBoxX , directorSignatureBoxY + signatureBoxHeight - 5);
 
-const directorSignatureBoxX = 170;
-const directorSignatureBoxY = doc.autoTable.previous.finalY + 10; // Adjust Y position as needed
+  const footerText = 'Auto-École XYZ\n 123 Avenue des Élèves 75001 Paris\n Tél: 01 XX XX XX XX\n  Email: contact@autoecole.xyz\n Site web: www.autoecole.xyz';
+  const footerX = 10;
+  const footerY = doc.internal.pageSize.getHeight() - 20;
+  doc.text(footerText, footerX, footerY);
 
-doc.rect(directorSignatureBoxX, directorSignatureBoxY, signatureBoxWidth, signatureBoxHeight);
-doc.text('Signature Directeur', directorSignatureBoxX + 10, directorSignatureBoxY + 20);
-const footerText = 'Auto-École XYZ  123 Avenue des Élèves 75001 Paris   Tél: 01 XX XX XX XX   Email: contact@autoecole.xyz  Site web: www.autoecole.xyz';
-const footerX = 10;
-const footerY = doc.internal.pageSize.getHeight() - 20;
-doc.text(footerText, footerX, footerY);
-doc.setFont('bold').setFontSize(20);
-doc.text('FACTURE CLIENT', clientSectionX+120, clientSectionY,); 
+  const footerText2 = 'Auto-École XYZ\n 123 Avenue des Élèves 75001 Paris\n Tél: 01 XX XX XX XX\n  Email: contact@autoecole.xyz\n Site web: www.autoecole.xyz';
+  const footerX2 = 170;
+  const footerY2 = doc.internal.pageSize.getHeight() - 20;
+  doc.text(footerText2, footerX2, footerY2);
+  doc.setFont('Arial','bold')
+  doc.setFontSize(20)
+  doc.text('FACTURE DIRECTEUR', directorSectionX, clientSectionY);
+  doc.text('FACTURE CLIENT', clientSectionX, clientSectionY);
+
   // Save the PDF to a buffer
   return new Promise(resolve => {
     resolve(doc.output('arraybuffer'));

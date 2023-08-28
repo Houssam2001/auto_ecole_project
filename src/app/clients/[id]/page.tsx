@@ -4,6 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import TransactionModal from "@/components/transactionForm/TransactionForm"
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Profile({ params }: {
   params: {
@@ -93,7 +94,7 @@ export default function Profile({ params }: {
                     </div>
                     <div className="text-center my-2">
                       <Image width={50} height={50} className="h-16 w-16 rounded-full mx-auto"
-                      src={""}
+                        src={""}
                         // src="https://avatars2.githubusercontent.com/u/24622175?s=60&amp;v=4"
                         alt="" />
                       <a href="#" className="text-main-color">James</a>
@@ -102,15 +103,15 @@ export default function Profile({ params }: {
                       <Image width={50} height={50} className="h-16 w-16 rounded-full mx-auto"
                         // src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
                         src={""}
-                        alt="" 
-                        />
+                        alt=""
+                      />
                       <a href="#" className="text-main-color">Natie</a>
                     </div>
                     <div className="text-center my-2">
                       <Image width={50} height={50} className="h-16 w-16 rounded-full mx-auto"
                         // src="https://bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/f04b52da-12f2-449f-b90c-5e4d5e2b1469_361x361.png"
-                       src={""}
-                       alt="" />
+                        src={""}
+                        alt="" />
                       <a href="#" className="text-main-color">Casey</a>
                     </div>
                   </div>
@@ -158,7 +159,7 @@ export default function Profile({ params }: {
                       <div className="grid grid-cols-2">
                         <div className="px-4 pt-2 font-semibold">Categorie</div>
                         <div className="px-4 py-2">{client.category}</div>
-                        </div>
+                      </div>
                       <div className="grid grid-cols-2">
                         <div className="px-4 py-2 font-semibold">Date de Naissance</div>
                         <div className="px-4 py-2">{client.naissance}</div>
@@ -215,8 +216,9 @@ export default function Profile({ params }: {
                 </div>
 
 
-                <div className="my-4"></div>
-
+                <Link href={`/clients-pdf/${client.id}`} style={{ textDecoration: "none" }}>
+                  <div className="viewButton">View</div>
+                </Link>
                 <div className="bg-white p-3 shadow-sm rounded-sm">
 
                   <>

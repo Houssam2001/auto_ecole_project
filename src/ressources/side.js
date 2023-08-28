@@ -29,7 +29,7 @@ const sidebarItems = [
         title: 'Condidats/المرشحين', sub: [
             { text: 'Condidats', icon: <BsPeopleFill /> ,linkTo: "/clients"},
             { text: 'Ajouter condidat', icon: <BsPlusCircleFill/> ,linkTo: "/new"},
-            { text: 'Suivi des examens', icon: <BsExclamationCircleFill/>,linkTo: "/" },
+            { text: 'Suivi des examens', icon: <BsExclamationCircleFill/>,linkTo: "/examens" },
             { text: 'Registre', icon: <BsFileTextFill/> ,linkTo: "/"},
         ],
     },

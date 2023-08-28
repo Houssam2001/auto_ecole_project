@@ -69,6 +69,7 @@ const createCar = async (carData,filename) => {
      console.log(error);
   }
 };
+
 const handleUpdate = async (clientId) => {
   try {
     // Fetch the client's amount_id and category_id
@@ -114,6 +115,54 @@ const createTransaction = async (amount_id, clientId, value, date) => {
     throw error;
   }
 };
+const createExamen = async (type, langue, date, note) => {
+  try {
+    const { data, error } = await supabase
+    .from('examens')
+    .insert([{ type, date, langue, note ,user_id: (await (supabase2.auth.getUser())).data.user.id}]).select().single();
+    if (error) {
+      throw error;
+    }
+    
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+const updateExamenTheorique = async (id,client_id) => {
+  try {
+    const { data, error } = await supabase
+    .from('clients')
+    .update({ examen_theorique: id })
+    .eq('id', client_id);
+    if (error) {
+      throw error;
+    }
+    
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+const updateExamenPratique = async (id,client_id) => {
+  try {
+    const { data, error } = await supabase
+    .from('clients')
+    .update({ examen_pratique: id })
+    .eq('id', client_id);
+    if (error) {
+      throw error;
+    }
+    
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 async function uploadFile(file, nom) {
   const { data, error } = await supabase.storage.from('machmech').upload(nom, file)
   if (error) {
@@ -150,4 +199,4 @@ async function getMoniteurs() {
   }
   return moniteurs;
 }
-export { updateTable, createClient2, uploadFile, getClient, createTransaction, createMoniteur, getMoniteurs, getMoniteur, createCar }
+export { updateTable, createClient2, uploadFile, getClient, createTransaction, createMoniteur, getMoniteurs, getMoniteur, createCar ,createExamen,updateExamenPratique,updateExamenTheorique}
