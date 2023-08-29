@@ -5,7 +5,7 @@ import fr from 'date-fns/locale/fr';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-async function createInvoicePDF(transactionId) {
+async function createInvoicePDF(transactionId,formData) {
   const supabase = createClientComponentClient();
 
   // Fetch transaction data from Supabase
@@ -51,7 +51,7 @@ Date de facture: ${formattedDate}`, clientSectionX, clientSectionY + 20);
 
 const tableDataClient = [
   ['Date', 'Montant', 'Montant Global'],
-  [formattedDate, 1, `${transactionData.value}€`, `${candidateData.amount}€`]
+  [formattedDate,  `${transactionData.value} DHs`, `${candidateData.amount} DHs`]
 ];
 
 const pageWidth = doc.internal.pageSize.getWidth();
@@ -99,7 +99,7 @@ ${candidateData.city}
 Tél: ${candidateData.phone}`, directorSectionX, clientSectionY + 20);
 
   doc.autoTable({
-    columns: [{ header: 'DESCRIPTION' }, { header: 'QUANTITÉ' }, { header: 'PRIX UNITÉ' }, { header: 'MONTANT' }],
+    columns: [{ header: 'Date' }, { header: 'Montant' }, { header: 'Montant Global' }],
     body: tableDataClient.slice(1),
     startY: 80,
     innerWidth:20,
@@ -133,19 +133,19 @@ Tél: ${candidateData.phone}`, directorSectionX, clientSectionY + 20);
   // doc.rect(directorSignatureBoxX, directorSignatureBoxY, tableWidth, signatureBoxHeight);
   doc.text('Signature Directeur', directorSignatureBoxX , directorSignatureBoxY + signatureBoxHeight - 5);
 
-  const footerText = 'Auto-École XYZ\n 123 Avenue des Élèves 75001 Paris\n Tél: 01 XX XX XX XX\n  Email: contact@autoecole.xyz\n Site web: www.autoecole.xyz';
+  const footerText = `Auto-École ${formData.nom}\n ${formData.adresse} ${formData.ville}\n Tél: ${formData.telephone}\n  Email: ${formData.email}\n`;
   const footerX = 10;
   const footerY = doc.internal.pageSize.getHeight() - 20;
   doc.text(footerText, footerX, footerY);
 
-  const footerText2 = 'Auto-École XYZ\n 123 Avenue des Élèves 75001 Paris\n Tél: 01 XX XX XX XX\n  Email: contact@autoecole.xyz\n Site web: www.autoecole.xyz';
+  const footerText2 = `Auto-École ${formData.nom}\n ${formData.adresse} ${formData.ville}\n Tél: ${formData.telephone}\n  Email: ${formData.email}\n`;
   const footerX2 = 170;
   const footerY2 = doc.internal.pageSize.getHeight() - 20;
   doc.text(footerText2, footerX2, footerY2);
   doc.setFont('Arial','bold')
   doc.setFontSize(20)
-  doc.text('FACTURE DIRECTEUR', directorSectionX, clientSectionY);
-  doc.text('FACTURE CLIENT', clientSectionX, clientSectionY);
+  doc.text('REÇU DIRECTEUR', directorSectionX, clientSectionY);
+  doc.text('REÇU CLIENT', clientSectionX, clientSectionY);
 
   // Save the PDF to a buffer
   return new Promise(resolve => {

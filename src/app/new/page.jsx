@@ -190,9 +190,11 @@
 // }
 
 // export default New
+
 'use client'
 import "./new.scss";
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
+import KioskBoard from 'kioskboard';
 import { useEffect, useRef, useState } from "react";
 import { userInput } from "../formSource";
 import { useRouter } from "next/navigation";
@@ -222,7 +224,50 @@ const New = () => {
   const firstNameKeyboard = useRef();
   const lastNameKeyboard = useRef();
 
+  const keyboardRef = useRef(null);
 
+  useEffect(() => {
+    if (keyboardRef.current) {
+      KioskBoard.run(keyboardRef.current, {
+        language: "ar",
+        theme: "light",
+        keysArrayOfObjects: [
+          {
+            "0": "Q",
+            "1": "W",
+            "2": "E",
+            "3": "R",
+            "4": "T",
+            "5": "Y",
+            "6": "U",
+            "7": "I",
+            "8": "O",
+            "9": "P"
+          },
+          {
+            "0": "A",
+            "1": "S",
+            "2": "D",
+            "3": "F",
+            "4": "G",
+            "5": "H",
+            "6": "J",
+            "7": "K",
+            "8": "L"
+          },
+          {
+            "0": "Z",
+            "1": "X",
+            "2": "C",
+            "3": "V",
+            "4": "B",
+            "5": "N",
+            "6": "M"
+          }
+        ]
+      });
+    }
+  }, [keyboardRef]);
   const handleShift = () => {
     const newLayoutName = layout === "default" ? "shift" : "default";
     setLayout(newLayoutName);
@@ -305,8 +350,8 @@ const New = () => {
         <div className="bottom">
           <div className="left">
             <Image
-            height={50}
-            width={50}
+              height={50}
+              width={50}
               src={
                 file
                   ? URL.createObjectURL(file)
@@ -416,6 +461,13 @@ const New = () => {
                   </div>
                 )}
               </div>
+              <input
+                className="inputFromKey"
+                ref={keyboardRef}
+                type="text"
+                data-kioskboard-type="keyboard"
+                placeholder="normal keyboard"
+              />
               <div className="formInput">
                 <label>الاسم الشخصي:</label>
                 <input

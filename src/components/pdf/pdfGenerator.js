@@ -1,7 +1,7 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
-const generateVoituresPDF = async (id) => {
+const generateVoituresPDF = async (id,formData) => {
   const supabase = createClientComponentClient();
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage();

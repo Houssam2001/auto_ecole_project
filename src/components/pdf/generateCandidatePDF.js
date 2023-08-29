@@ -1,9 +1,10 @@
+import { fetchAuto } from '@/utils/Auto';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { createClient } from '@supabase/supabase-js';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const generateCandidatePDF = async (id) => {
+const generateCandidatePDF = async (id,formData) => {
   // Initialize Supabase client
   const supabase = createClientComponentClient();
 
@@ -12,7 +13,6 @@ const generateCandidatePDF = async (id) => {
     orientation: 'landscape',
   });
 
-  // Fetch client data from Supabase
   const { data, error } = await supabase
     .from('clients')
     .select('*')
@@ -23,7 +23,6 @@ const generateCandidatePDF = async (id) => {
     console.error('Error fetching client:', error);
     return null;
   }
-
   const fontSize = 10;  // Reduced font size
   let yPosition = 30;  // Start position for text
 
@@ -39,7 +38,7 @@ const generateCandidatePDF = async (id) => {
   doc.text(`Prenom: ${data.prenom}`, 10, yPosition);
   yPosition += 10;
   doc.text(`Telephone: ${data.phone}`, 10, yPosition);
-  doc.text(`CIN: ${data.cin}`, yPosition+40, yPosition);
+  doc.text(`CIN: ${data.CIN}`, yPosition+40, yPosition);
   yPosition += 10;
   doc.text(`Email: ${data.email}`, 10, yPosition);
   yPosition += 10;
@@ -108,8 +107,8 @@ const footerLine = '------------------------------------------------------------
 const footerX2 = 0;
 const footerY2 = doc.internal.pageSize.getHeight() - 20;
 doc.text(footerLine, footerX2, footerY2);
-const footerText = 'Auto-École XYZ 123 Avenue des Élèves 75001 Paris Tél: 01 XX XX XX XX  Email: contact@autoecole.xyz Site web: www.autoecole.xyz';
-const footerX = 35;
+const footerText = `Auto-École ${formData.nom} ${formData.adresse} ${formData.ville} Tél: ${formData.telephone}  Email: ${formData.email} `;
+const footerX = 30;
 const footerY = doc.internal.pageSize.getHeight() - 10;
 doc.text(footerText, footerX, footerY);
 // ... (rest of the code remains the same)

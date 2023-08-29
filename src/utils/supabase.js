@@ -9,6 +9,9 @@ import { supabase } from "./client";
 const supabase2 = createServerActionClient({
   cookies,
 });
+const getUser=async()=>{
+return await (supabase2.auth.getUser()).data.user.id
+}
 const updateTable = async (formData, tablename, id) => {
   const { data: formDataResult, error: formDataError } = await supabase
     .from(tablename)
@@ -209,4 +212,4 @@ async function getMoniteurs() {
   }
   return moniteurs;
 }
-export { updateTable, createClient2, uploadFile, getClient, createTransaction, createMoniteur, getMoniteurs, getMoniteur, createCar ,createExamen,updateExamenPratique,updateExamenTheorique,createDepense}
+export { updateTable, createClient2, uploadFile, getClient, createTransaction, createMoniteur, getMoniteurs, getMoniteur, createCar ,createExamen,updateExamenPratique,updateExamenTheorique,createDepense,getUser}

@@ -1,28 +1,16 @@
 import Head from 'next/head'
 import {
-    BsPlus,
-    BsSearch,
-    BsEyeFill,
-    BsBookmarkFill,
-    BsFillArrowLeftSquareFill,
     BsExclamationCircleFill,
     BsPeopleFill,
     BsPlusCircleFill,
     BsCashCoin,
-    BsTerminalFill,
     BsCarFrontFill,
     BsFileTextFill,
     BsDatabaseFillDash,
     BsFillWalletFill,
     BsPersonBoundingBox,
-    BsBadge3D,
-    BsBadge3DFill,
     BsFillPersonBadgeFill
 } from 'react-icons/bs'
-
-import BadgeIcon from '@mui/icons-material/Badge';
-import { AiFillFire, AiFillMessage, AiOutlineHome, } from 'react-icons/ai'
-
 
 const sidebarItems = [
     {
