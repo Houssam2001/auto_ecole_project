@@ -36,13 +36,13 @@ const sidebarItems = [
     {
         title: 'Comptabilitée/المحاسبة', sub: [
             { text: "paiement", icon: <BsCashCoin />, linkTo: "/" },
-            { text: 'depenses', icon: <BsDatabaseFillDash />,linkTo: "/" },
+            { text: 'depenses', icon: <BsDatabaseFillDash />,linkTo: "/depenses" },
             { text: 'recettes', icon: <BsFillWalletFill />, linkTo: "/" },
         ],
     },
     {
         title: 'Ecole/المؤسسة', sub: [
-            { text: "Auto", icon: <BsFillPersonBadgeFill />, linkTo: "/" },
+            { text: "Auto", icon: <BsFillPersonBadgeFill />, linkTo: "/auto" },
             { text: 'Moniteurs', icon: <BsPersonBoundingBox /> ,linkTo: "/moniteurs"},
             { text: 'Voitures', icon: <BsCarFrontFill />,linkTo: "/voitures" },
         ],

@@ -6,11 +6,6 @@ import { Console } from "console";
 import { cookies } from "next/headers";
 import { supabase } from "./client";
 
-// const supabase = createClient(
-//   process.env.NEXT_PUBLIC_SUPABASE_URL,
-//   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-// );
-
 const supabase2 = createServerActionClient({
   cookies,
 });
@@ -115,6 +110,21 @@ const createTransaction = async (amount_id, clientId, value, date) => {
     throw error;
   }
 };
+const createDepense = async (title, commentaire, value, date) => {
+  try {
+    const { data, error } = await supabase
+      .from("depenses")
+      .insert({ value: value, date: date, title: title, commentaire: commentaire , user_id: (await (supabase2.auth.getUser())).data.user.id});
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 const createExamen = async (type, langue, date, note) => {
   try {
     const { data, error } = await supabase
@@ -199,4 +209,4 @@ async function getMoniteurs() {
   }
   return moniteurs;
 }
-export { updateTable, createClient2, uploadFile, getClient, createTransaction, createMoniteur, getMoniteurs, getMoniteur, createCar ,createExamen,updateExamenPratique,updateExamenTheorique}
+export { updateTable, createClient2, uploadFile, getClient, createTransaction, createMoniteur, getMoniteurs, getMoniteur, createCar ,createExamen,updateExamenPratique,updateExamenTheorique,createDepense}
