@@ -218,51 +218,60 @@ const New = () => {
   const [showFirstNameKeyboard, setShowFirstNameKeyboard] = useState(false);
   const [showLastNameKeyboard, setShowLastNameKeyboard] = useState(false);
   const [firstNameInput, setFirstNameInput] = useState("جون");
-  const [lastNameInput, setLastNameInput] = useState("دو");
+  const [lastNameInput, setLastNameInput] = useState("");
   const [firstNameLayout, setFirstNameLayout] = useState("default");
   const [lastNameLayout, setLastNameLayout] = useState("default");
   const firstNameKeyboard = useRef();
   const lastNameKeyboard = useRef();
-
   const keyboardRef = useRef(null);
 
   useEffect(() => {
     if (keyboardRef.current) {
       KioskBoard.run(keyboardRef.current, {
-        language: "ar",
+        language: "en",
         theme: "light",
+        keysAllowSpacebar: true,
+        allowRealKeyboard: true,
+        allowMobileKeyboard: true,
         keysArrayOfObjects: [
           {
-            "0": "Q",
-            "1": "W",
-            "2": "E",
-            "3": "R",
-            "4": "T",
-            "5": "Y",
-            "6": "U",
-            "7": "I",
-            "8": "O",
-            "9": "P"
+            "0": "د",
+            "1": "ج",
+            "2": "ح",
+            "3": "خ",
+            "4": "ه",
+            "5": "ع",
+            "6": "غ",
+            "7": "ف",
+            "8": "ق",
+            "9": "ث",
+            "10": "ص",
+            "11": "ض"
           },
           {
-            "0": "A",
-            "1": "S",
-            "2": "D",
-            "3": "F",
-            "4": "G",
-            "5": "H",
-            "6": "J",
-            "7": "K",
-            "8": "L"
+            "0": "ط",
+            "1": "ك",
+            "2": "م",
+            "3": "ن",
+            "4": "ت",
+            "5": "ا",
+            "6": "ل",
+            "7": "ب",
+            "8": "ي",
+            "9": "س",
+            "10": "ش"
           },
           {
-            "0": "Z",
-            "1": "X",
-            "2": "C",
-            "3": "V",
-            "4": "B",
-            "5": "N",
-            "6": "M"
+            "0": "ظ",
+            "1": "ز",
+            "2": "و",
+            "3": "ة",
+            "4": "ى",
+            "5": "لا",
+            "6": "ر",
+            "7": "ؤ",
+            "8": "ء",
+            "9": "ئ"
           }
         ]
       });
@@ -273,6 +282,11 @@ const New = () => {
     setLayout(newLayoutName);
   };
 
+  useEffect(() => {
+    if (lastNameKeyboard.current) {
+      lastNameKeyboard.current.setInput(lastNameInput);
+    }
+  }, [lastNameInput]);
 
   const onKeyPress = (button) => {
     console.log("Button pressed", button);
@@ -424,7 +438,7 @@ const New = () => {
                   <option value="femme">Femme</option>
                 </select>
               </div>
-              <div className="formInput">
+              {/* <div className="formInput">
                 <label>الاسم العائلي:</label>
                 <input
                   name="lastName"
@@ -460,15 +474,21 @@ const New = () => {
                     />
                   </div>
                 )}
-              </div>
-              <input
-                className="inputFromKey"
-                ref={keyboardRef}
-                type="text"
-                data-kioskboard-type="keyboard"
-                placeholder="normal keyboard"
-              />
+              </div> */}
               <div className="formInput">
+                <label>الاسم العائلي:</label>
+                <input
+                  className="inputFromKey"
+                  ref={keyboardRef}
+                  type="text"
+                  onChange={(e) => setLastNameInput(e.target.value)}
+                  value={lastNameInput}
+                  data-kioskboard-type="keyboard"
+                  placeholder="normal keyboard"
+                />
+              </div>
+             
+              {/* <div className="formInput">
                 <label>الاسم الشخصي:</label>
                 <input
                   name="firstName"
@@ -504,7 +524,7 @@ const New = () => {
                     />
                   </div>
                 )}
-              </div>
+              </div> */}
               <div className="formInput">
                 <label>ADRESSE:</label>
                 <textarea
