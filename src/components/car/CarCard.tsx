@@ -32,7 +32,7 @@ const CarCard = ({ car }: CarCardProps) => {
             </p>
 
             <div className="relative w-full h-40 my-3 object-contain group">
-                <Image src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${image}`} alt="image d'auto" fill priority className="object-contain"  />
+                <Image width={100} height={100} src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${image}`} alt="image d'auto" fill priority className="object-contain"  />
                 <div className="absolute  inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <a
                         href="#_"

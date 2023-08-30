@@ -43,6 +43,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-scripts": "^5.0.1",
+    "react-select": "^5.7.4",
     "react-simple-keyboard": "^3.6.53",
     "react-virtual-keyboard": "^1.0.2",
     "recharts": "^2.1.14",

@@ -9,8 +9,21 @@ export default function ProfileMoniteur({ params }: {
     };
 }) {
     const [moniteur, setMoniteur] = useState<any | null>(null); // Initialize state with null
+    const [clients, setClients] = useState<any | null>(null); // Initialize state with null
     const supabase = createClientComponentClient();
-
+    const connections = [
+        {
+            imageSrc: "https://vojislavd.com/ta-template-demo/assets/img/connections/connection1.jpg",
+            name: "Diane Aguilar",
+            role: "UI/UX Design at Upwork",
+        },
+        {
+            imageSrc: "https://vojislavd.com/ta-template-demo/assets/img/connections/connection2.jpg",
+            name: "Frances Mather",
+            role: "Software Engineer at Facebook",
+        },
+        // ... Add more connections
+    ];
     const fetchClient = async () => {
         try {
             let { data: clientData, error } = await supabase
@@ -28,6 +41,34 @@ export default function ProfileMoniteur({ params }: {
             }
         } catch (error: any) {
             console.error(error.message);
+        }
+        try {
+            const { data: clients, error } = await supabase
+                .from('clients')
+                .select('*')
+                // .eq('moniteur_pratique', params.id)
+                .eq('moniteur_theorique', params.id);
+            if (error) {
+                throw new Error(`Error fetching clients moniteurs.`);
+            }
+            setClients(clients)
+            console.log(clients)
+        } catch (error) {
+            console.error(error);
+        }
+        try {
+            const { data: clients, error } = await supabase
+                .from('clients')
+                .select('*')
+                .eq('moniteur_pratique', params.id)
+            // .eq('moniteur_theorique', params.id);
+            if (error) {
+                throw new Error(`Error fetching clients moniteurs.`);
+            }
+            setClients(clients)
+            console.log(clients)
+        } catch (error) {
+            console.error(error);
         }
     };
     useEffect(() => {
@@ -331,88 +372,18 @@ export default function ProfileMoniteur({ params }: {
                                 </svg>
                             </a>
                         </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection1.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Diane Aguilar</p>
-                                <p className="text-xs text-gray-500 text-center">UI/UX Design at Upwork</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection2.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Frances Mather</p>
-                                <p className="text-xs text-gray-500 text-center">Software Engineer at Facebook</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection3.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Carlos Friedrich</p>
-                                <p className="text-xs text-gray-500 text-center">Front-End Developer at Tailwind CSS</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection4.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Donna Serrano</p>
-                                <p className="text-xs text-gray-500 text-center">System Engineer at Tesla</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection5.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Randall Tabron</p>
-                                <p className="text-xs text-gray-500 text-center">Software Developer at Upwork</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection6.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">John McCleary</p>
-                                <p className="text-xs text-gray-500 text-center">Software Engineer at Laravel</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection7.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Amanda Noble</p>
-                                <p className="text-xs text-gray-500 text-center">Graphic Designer at Tailwind CSS</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection8.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Christine Drew</p>
-                                <p className="text-xs text-gray-500 text-center">Senior Android Developer at Google</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection9.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Lucas Bell</p>
-                                <p className="text-xs text-gray-500 text-center">Creative Writer at Upwork</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection10.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Debra Herring</p>
-                                <p className="text-xs text-gray-500 text-center">Co-Founder at Alpine.js</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection11.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Benjamin Farrior</p>
-                                <p className="text-xs text-gray-500 text-center">Software Engineer Lead at Microsoft</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection12.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Maria Heal</p>
-                                <p className="text-xs text-gray-500 text-center">Linux System Administrator at Twitter</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection13.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Edward Ice</p>
-                                <p className="text-xs text-gray-500 text-center">Customer Support at Instagram</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection14.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Jeffery Silver</p>
-                                <p className="text-xs text-gray-500 text-center">Software Engineer at Twitter</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection15.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Jennifer Schultz</p>
-                                <p className="text-xs text-gray-500 text-center">Project Manager at Google</p>
-                            </a>
-                            <a href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
-                                <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/connections/connection16.jpg" className="w-16 rounded-full" alt={""} />
-                                <p className="text-center font-bold text-sm mt-1">Joseph Marlatt</p>
-                                <p className="text-xs text-gray-500 text-center">Team Lead at Facebook</p>
-                            </a>
-                        </div>
+                        {clients && (
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
+
+                                {clients.map((connection: any, index: any) => (
+                                    <a key={index} href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
+                                        <Image width={50} height={50} src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${connection.image}`} alt="" />
+                                        <p className="text-center font-bold text-sm mt-1">{connection.nom}</p>
+                                        <p className="text-xs text-gray-500 text-center">{connection.prenom}</p>
+                                    </a>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             ) : (

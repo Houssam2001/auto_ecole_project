@@ -1,6 +1,7 @@
 const clientData = {
     id: 'UUID',
     nom: 'John Doe',
+    created_at:'',
     email: 'johndoe@example.com',
     phone: '123-456-7890',
     CIN: 'XYZ123',

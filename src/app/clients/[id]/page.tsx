@@ -12,38 +12,75 @@ export default function Profile({ params }: {
   };
 }) {
   const [client, setClient] = useState<any | null>(null); // Initialize state with null
+  const [clients, setClients] = useState<any | null>(null); // Initialize state with null
+  const [moniteurP, setMoniteurP] = useState<any | null>(null); // Initialize state with null
+  const [moniteurT, setMoniteurT] = useState<any | null>(null); // Initialize state with null
   const supabase = createClientComponentClient();
   const [showFullInfo, setShowFullInfo] = useState(false); // State to track whether full info is shown
-
-  const fetchClient = async () => {
-    try {
-      let { data: clientData, error } = await supabase
-        .from("clients")
-        .select("*")
-        .eq("id", params.id)
-        .single();
-      if (error) {
-        throw new Error("Error fetching client.");
-      }
-      if (clientData) {
-        setClient(clientData); // Set the fetched client data
-      } else {
-        console.log("Client not found");
-      }
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    fetchClient(); // Fetch the client data when the component mounts
+    const fetchData = async () => {
+      try {
+        // Fetch the details of the selected client
+        const { data: clientData, error } = await supabase
+          .from("clients")
+          .select("*")
+          .eq("id", params.id)
+          .single();
 
-    // Clean up the component and cancel the request if unmounted before fetch completion
-    return () => {
-      supabase.removeAllChannels; // Assuming this function cancels any ongoing subscription
+        if (error) {
+          throw new Error("Error fetching client.");
+        }
+
+        if (clientData) {
+          setClient(clientData); // Set the fetched client data
+        } else {
+          console.log("Client not found");
+        }
+        try {
+          const { data: moniteurs, error } = await supabase
+            .from('moniteurs')
+            .select('*')
+            .eq('id', clientData.moniteur_pratique).single();
+          if (error) {
+            throw new Error(`Error fetching  moniteurs.`);
+          }
+          setMoniteurP(moniteurs)
+
+        } catch (error) {
+          console.error(error);
+        }
+        try {
+          const { data: moniteurs, error } = await supabase
+            .from('moniteurs')
+            .select('*')
+            .eq('id', clientData.moniteur_theorique).single();
+          if (error) {
+            throw new Error(`Error fetching  moniteurs.`);
+          }
+          setMoniteurT(moniteurs)
+        } catch (error) {
+          console.error(error);
+        }
+
+        // Fetch all clients that were created at the same time as the selected client
+        const { data: allClients, error: clientsError } = await supabase
+          .from("clients")
+          .select("*").limit(3).eq("moniteur_pratique", clientData.moniteur_pratique)
+          .neq('image', null)
+        // .eq("created_at", clientData.created_at); // Assuming the field name is created_at
+
+        if (clientsError) {
+          throw new Error("Error fetching clients.");
+        }
+
+        setClients(allClients);
+      } catch (error: any) {
+        console.error(error.message);
+      }
     };
-  }, [params]); // Re-fetch when the ID changes
 
+    fetchData();
+  }, [params]);
   return (
     <>
       {client ? (
@@ -53,9 +90,8 @@ export default function Profile({ params }: {
               <div className="w-full md:w-3/12 md:mx-2">
                 <div className="bg-white p-3 border-t-4 border-blue-400">
                   <div className="image overflow-hidden">
-                    <Image width={50} height={50} className="h-auto w-full mx-auto"
-                      src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                      alt="" />
+                    <Image width={100} height={100} className="h-auto w-full mx-auto"
+                      src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${client.image}`} alt="" />
                   </div>
                   <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{client.nom} {client.prenom}</h1>
                   <h3 className="text-gray-600 font-lg text-semibold leading-6 rounded-md ">{client.CIN}</h3>
@@ -85,35 +121,47 @@ export default function Profile({ params }: {
                     </span>
                     <span>Similar Profiles</span>
                   </div>
-                  <div className="grid grid-cols-3">
-                    <div className="text-center my-2">
-                      <Image width={50} height={50} className="h-16 w-16 rounded-full mx-auto"
-                        src="https://cdn.australianageingagenda.com.au/wp-content/uploads/2015/06/28085920/Phil-Beckett-2-e1435107243361.jpg"
-                        alt="" />
-                      <a href="#" className="text-main-color">Kojstantin</a>
-                    </div>
-                    <div className="text-center my-2">
-                      <Image width={50} height={50} className="h-16 w-16 rounded-full mx-auto"
-                        src={""}
-                        // src="https://avatars2.githubusercontent.com/u/24622175?s=60&amp;v=4"
-                        alt="" />
-                      <a href="#" className="text-main-color">James</a>
-                    </div>
-                    <div className="text-center my-2">
-                      <Image width={50} height={50} className="h-16 w-16 rounded-full mx-auto"
-                        // src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                        src={""}
-                        alt=""
-                      />
-                      <a href="#" className="text-main-color">Natie</a>
-                    </div>
-                    <div className="text-center my-2">
-                      <Image width={50} height={50} className="h-16 w-16 rounded-full mx-auto"
-                        // src="https://bucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com/public/images/f04b52da-12f2-449f-b90c-5e4d5e2b1469_361x361.png"
-                        src={""}
-                        alt="" />
-                      <a href="#" className="text-main-color">Casey</a>
-                    </div>
+                  <div className="flex flex-wrap justify-center max-w-4xl mx-auto gap-4">
+                    {/* {client && (
+                      <div className="text-center my-2">
+                        <Image
+                          width={100}
+                          height={100}
+                          className="h-16 w-16 rounded-full mx-auto"
+                          src={client.imageUrl} // Use the actual image URL field
+                          alt={''} // Use the actual client name field
+                        />
+                        <a href="#" className=" text-main-color mt-2">{client.name}</a>
+                      </div>
+                    )} */}
+
+                    {clients && (
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {clients.map((clientInfo: any, index: any) => (
+                          <div key={index} className="flex flex-col items-center text-center">
+                            <Image
+                              width={50}
+                              height={50}
+                              className="h-16 w-16 rounded-full"
+                              src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${clientInfo.image}`}
+                              alt={clientInfo.nom} // Use the actual client name field
+                            />
+                            <a href="#" className="text-main-color mt-2">{clientInfo.nom}</a>
+                          </div>
+                        ))}</div>
+                    )}
+                    {/* {people.map((person, index) => (
+                      <div key={index} className="flex flex-col items-center text-center">
+                        <Image
+                          width={50}
+                          height={50}
+                          className="h-16 w-16 rounded-full"
+                          src={person.imageUrl}
+                          alt={person.name}
+                        />
+                        <a href="#" className="text-main-color mt-2">{person.name}</a>
+                      </div>
+                    ))} */}
                   </div>
                 </div>
               </div>
@@ -172,11 +220,11 @@ export default function Profile({ params }: {
                       <div className="grid md:grid-cols-2 text-sm">
                         <div className="grid grid-cols-2">
                           <div className="px-4 py-2 font-semibold">Moniteur theorique</div>
-                          <div className="px-4 py-2">{client.prenom}</div>
+                          <div className="px-4 py-2">{moniteurT.nom} {moniteurT.prenom}</div>
                         </div>
                         <div className="grid grid-cols-2">
                           <div className="px-4 py-2 font-semibold">Moniteur pratique</div>
-                          <div className="px-4 py-2">{client.nom}</div>
+                          <div className="px-4 py-2">{moniteurP.nom.toLowwerCase()} {moniteurP.prenom}</div>
                         </div>
                         <div className="grid grid-cols-2">
                           <div className="px-4 py-2 font-semibold">Examen theorique</div>
