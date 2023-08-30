@@ -23,9 +23,9 @@ const sidebarItems = [
     },
     {
         title: 'Comptabilitée/المحاسبة', sub: [
-            { text: "paiement", icon: <BsCashCoin />, linkTo: "/" },
+            { text: "paiement", icon: <BsCashCoin />, linkTo: "/paiement" },
             { text: 'depenses', icon: <BsDatabaseFillDash />,linkTo: "/depenses" },
-            { text: 'recettes', icon: <BsFillWalletFill />, linkTo: "/" },
+            // { text: 'recettes', icon: <BsFillWalletFill />, linkTo: "/" },
         ],
     },
     {

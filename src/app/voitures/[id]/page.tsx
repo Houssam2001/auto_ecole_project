@@ -322,7 +322,7 @@ export default function UnconventionalTabs({ params }: {
 
                                             <div className="absolute rounded-full bg-fuchsia-300 -bottom-24 right-20 w-72 h-72 mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
                                             <div className="relative">
-                                                <Image width={100} height={100} className="object-cover object-center mx-auto rounded-lg shadow-2xl" alt="hero" src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${voiture.image}`} />
+                                                <Image width={500} height={500} className="object-cover object-center mx-auto rounded-lg shadow-2xl" alt="hero" src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${voiture.image}`} />
                                             </div>
                                         </div>
                                     </div>

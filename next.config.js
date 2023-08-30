@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const withFonts = require('next-fonts');
+const nextConfig = withFonts({
+  enableSvg: true, // If you're using SVG fonts
+
   images: {
     remotePatterns: [
       {
@@ -55,10 +58,14 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-    webpack: (config, { isServer }) => {
-        // Custom webpack configuration here
-        return config;
-      },
-}
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.node$/,
+      loader: 'node-loader',
+    });
+
+    return config;
+  },
+})
 
 module.exports = nextConfig

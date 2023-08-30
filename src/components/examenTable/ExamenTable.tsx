@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import './datatable.scss'
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, frFR } from "@mui/x-data-grid";
 import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const ExamenDatatable = () => {
   const supabase = createClientComponentClient()
-  const [data, setData] =useState<any[]>([])
+  const [data, setData] = useState<any[]>([])
   const columns: GridColDef[] = [
     { field: "CIN", headerName: "Cin", width: 100 },
     { field: "nom", headerName: "nom", width: 150 },
@@ -36,23 +36,23 @@ const ExamenDatatable = () => {
   ];
   const fetchClients = async () => {
     try {
-      const  {data:clients,error}  = await supabase.from("clients").select("*");
-      if (error)   {
+      const { data: clients, error } = await supabase.from("clients").select("*");
+      if (error) {
         throw new Error("Error fetching clients.");
       }
       setData(clients);
       console.log(clients)
-    } catch (error:any) {
+    } catch (error: any) {
       console.error(error);
     }
   };
   useEffect(() => {
     fetchClients();
   }, [[supabase, setData]]);
-  const handleDelete = async (id:any) => {
+  const handleDelete = async (id: any) => {
     try {
-      setData((prevData) => prevData.filter((item:any) => item.id !== id));
-    } catch (error:any) {
+      setData((prevData) => prevData.filter((item: any) => item.id !== id));
+    } catch (error: any) {
       console.error(error);
     }
   };
@@ -66,7 +66,10 @@ const ExamenDatatable = () => {
         </Link>
       </div>
       <div style={{ height: 530, width: "100%" }}>
-        <DataGrid rows={data} columns={columns} />
+        <DataGrid
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+
+          rows={data} columns={columns} />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import './datatable.scss'
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridToolbar, frFR } from "@mui/x-data-grid";
 import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import SearchBar from '@mkyy/mui-search-bar';
@@ -50,7 +50,7 @@ const Datatable = () => {
       console.error(error);
     }
   };
- 
+
 
   // const fetchClients = async () => {
   //   try {
@@ -82,7 +82,7 @@ const Datatable = () => {
     });
     setFilteredData(newFilteredData);
   }, [searchQuery]);
-  
+
   const handleDelete = async (id: any) => {
     try {
       setData((prevData) => prevData.filter((item: any) => item.id !== id));
@@ -101,21 +101,24 @@ const Datatable = () => {
       </div>
       <div className="group-enabled  p-4">
         <div className="text-lg">
-          
-      Chercher avec Prenom,nom ou Cin
+
+          Chercher avec Prenom,nom ou Cin
         </div>
-        <SearchBar 
+        <SearchBar
           placeholder="Prenom ,nom ou Cin"
           value={searchQuery}
           onChange={(newValue) => setSearchQuery(newValue)}
           onCancelResearch={() => setSearchQuery('')}
           className="rounded-md border border-black my-2"
 
-          />
+        />
 
       </div>
       <div style={{ height: 530, width: "100%" }}>
-        <DataGrid rows={filteredData} columns={columns}
+        <DataGrid
+          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+
+          rows={filteredData} columns={columns}
 
         />
       </div>

@@ -5,6 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { useEffect, useState } from 'react';
 import { supabase } from "@/utils/client";
+import contratAr from '@/components/pdf/contratAr';
 
 
 
@@ -55,7 +56,7 @@ export default function VoituresPDFPage({ params }: {
 
     useEffect( () => {
         
-        generateCandidatePDF(params.id, formData).then(async pdfBytes => {
+        contratAr(params.id, formData).then(async pdfBytes => {
             if (pdfBytes) {
                 const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                 const url = URL.createObjectURL(blob);

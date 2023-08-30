@@ -1,7 +1,7 @@
 'use client'
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useEffect, useState } from "react"
-import { DataGrid, GridColDef } from "@mui/x-data-grid"
+import { DataGrid, GridColDef, frFR } from "@mui/x-data-grid"
 import Link from "next/link"
 import './transactions.scss'
 const TransactionsList = ({ amount_id }: { amount_id: any }) => {
@@ -58,10 +58,13 @@ const TransactionsList = ({ amount_id }: { amount_id: any }) => {
             <div className="listContainer">
                 <div className="datatable">
                     <div className="datatableTitle">
-                        
+
                     </div>
                     <div style={{ height: 530, width: "100%" }}>
-                        <DataGrid rows={data} columns={columns} />
+                        <DataGrid
+                            localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+
+                            rows={data} columns={columns} />
                     </div>
 
 
