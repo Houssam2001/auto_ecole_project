@@ -10,7 +10,7 @@ import contratFr from '@/components/pdf/contratFr';
 
 
 
-export default function VoituresPDFPage({ params }: {
+export default function ContratFrPdf({ params }: {
     params: {
         id: string;
     };

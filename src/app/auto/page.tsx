@@ -19,7 +19,8 @@ export default function Auto() {
         email: '',
         المدير: '',
         arabic_ecole:'',
-        arabic_ville:''
+        arabic_ville:'',
+        arabic_gerant:'',
 
     });
     const InputGroup = ({ label, value }: { label: any, value: any }) => (
@@ -69,7 +70,7 @@ export default function Auto() {
                     Auto Ecole Profile
                 </h2>
                 <form action="#" className="space-y-8">
-                    <div className='flex space-x-16'>
+                    <div className='flex space-x-2'>
                         <label className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             Nom d&apos;ecole
                         </label>
@@ -86,14 +87,14 @@ export default function Auto() {
                                 readOnly
                                 className="w-2/4 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                             />
-                            <label className="mb-2 ml-6 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label className="mb-2 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 اسم المدرسة
                             </label>
                         </div>
                     </div>
 
                     {/* Gerant Field */}
-                    <div className='flex space-x-16'>
+                    <div className='flex space-x-2'>
                         <label className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             Gerant
                         </label>
@@ -106,7 +107,7 @@ export default function Auto() {
                         <div className="flex justify-end w-full">
                             <input
                                 type="text"
-                                value={formData.المدير || ''}
+                                value={formData.arabic_gerant || ''}
                                 readOnly
                                 className="w-2/4 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                             />
@@ -169,7 +170,7 @@ export default function Auto() {
                         />
 
                     </div>
-                    <div className='flex space-x-16'>
+                    <div className='flex space-x-2'>
                         <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             Ville
                         </label>
@@ -242,9 +243,9 @@ export default function Auto() {
                             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                         />
                     </div>
-                    <button type="submit" className="content-center py-3 px-5 bg-black text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    {/* <button type="submit" className="content-center py-3 px-5 bg-black text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                         Update Profile
-                    </button>
+                    </button> */}
                 </form>
                 <div>
                     <div className='font-bold text-2xl text-center py-6'>Tarifs</div>

@@ -21,9 +21,11 @@ const New = () => {
   const [frenshlastNameInput, setFrenshLastNameInput] = useState("");
   const [frenshfirstNameInput, setFrenshFirstNameInput] = useState("");
   const [frenshAdresseInput, setFrenshAdresseInput] = useState("");
+  const [frenshVilleInput, setFrenshVilleInput] = useState("");
   const firstNameKeyboard = useRef(null);
   const lastNameKeyboard = useRef(null);
   const keyboardRef = useRef(null);
+  const VilledRef = useRef(null);
   const [moniteurs, setMoniteurs] = useState([]);
   const [selectedMoniteur, setSelectedMoniteur] = useState(null);
 
@@ -134,7 +136,9 @@ const New = () => {
     setupKioskBoard(keyboardRef);
     setupKioskBoard(firstNameKeyboard);
     setupKioskBoard(lastNameKeyboard);
-  }, [keyboardRef, firstNameKeyboard, lastNameKeyboard]);
+    setupKioskBoard(VilledRef);
+    
+  }, [keyboardRef, firstNameKeyboard, lastNameKeyboard,VilledRef]);
   const handleFrenshAdresse = (e) => {
     setFrenshAdresseInput(e.target.value);
   };
@@ -159,6 +163,7 @@ const New = () => {
       const arabicLastName = lastNameKeyboard.current.value;
       const arabicFirstName = firstNameKeyboard.current.value;
       const arabicAdresse = keyboardRef.current.value;
+      const arabic_ville = VilledRef.current.value;
       const filename = `${uuidv4()}`;
       const { data1, error } = await supabase.storage.from('machmech').upload(filename, file)
       const data = {
@@ -170,6 +175,8 @@ const New = () => {
         arabic_prenom: arabicFirstName,
         arabic_nom: arabicLastName,
         arabic_adresse: arabicAdresse,
+        arabic_ville:arabic_ville,
+        ville:frenshVilleInput,
         sexe: sexe,
         category: category,
         moniteur_pratique: selectedPratiqueMoniteur.value,
@@ -298,6 +305,50 @@ const New = () => {
                       <div className="md:w-1/4 flex">
                         <label className="font-bold text-md text-gray-900 dark:text-gray-300 md:mb-0 md:mt-2">
                           : الاسم العائلي
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-6 gap-4 p-4">
+                <div className="col-span-3">
+                  <div className='flex flex-col md:flex-row md:space-x-2'>
+                    <div className="md:w-1/4 flex">
+                      <label className="block font-bold text-md text-gray-900 dark:text-gray-300 self-center">
+                        Ville:
+                      </label>
+                    </div>
+
+                    <div className="md:w-3/4 flex">
+                      <input
+                        type="text"
+                        onChange={(e) => setFrenshVilleInput(e.target.value)}
+                        value={frenshVilleInput}
+                        placeholder="Ville"
+                        className="w-full shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-span-3 md:flex md:flex-col md:space-y-4 md:items-center md:justify-end">
+                  <div className="col-span-3">
+                    <div className='flex flex-col md:flex-row md:space-x-2'>
+                      <div className="md:w-3/4 flex">
+                        <input
+                          className="w-full shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                          ref={VilledRef}
+                          type="text"
+                          data-kioskboard-type="keyboard"
+                          placeholder="المدينة"
+                          required
+                        />
+                      </div>
+                      <div className="md:w-1/4 flex">
+                        <label className="font-bold text-md text-gray-900 dark:text-gray-300 md:mb-0 md:mt-2">
+                          : المدينة
                         </label>
                       </div>
                     </div>

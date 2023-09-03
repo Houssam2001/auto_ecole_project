@@ -10,7 +10,7 @@ import contratFr from '@/components/pdf/contratFr';
 
 
 
-export default function VoituresPDFPage({ params }: {
+export default function ContratArPDF({ params }: {
     params: {
         id: string;
     };
@@ -57,7 +57,7 @@ export default function VoituresPDFPage({ params }: {
 
     useEffect( () => {
         
-        contratFr(params.id, formData).then(async pdfBytes => {
+        contratAr(params.id, formData).then(async pdfBytes => {
             if (pdfBytes) {
                 const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                 const url = URL.createObjectURL(blob);

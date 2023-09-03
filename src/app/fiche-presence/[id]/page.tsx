@@ -57,7 +57,7 @@ export default function VoituresPDFPage({ params }: {
 
     useEffect( () => {
         
-        contratFr(params.id, formData).then(async pdfBytes => {
+        generateCandidatePDF(params.id, formData).then(async pdfBytes => {
             if (pdfBytes) {
                 const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                 const url = URL.createObjectURL(blob);
