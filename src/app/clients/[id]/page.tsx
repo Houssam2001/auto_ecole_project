@@ -208,7 +208,7 @@ export default function Profile({ params }: {
                       <Link href={`/fiche-presence/${client.id}`} style={{ textDecoration: "none" }}>
                         <div className="flex justify-center  my-2 hover:text-lg hover:text-gray-600">
                           <div className="text-green-500 mx-2"><FaFilePen /> </div>
-                          Fiche d'enseignement
+                          Fiche d&lsquo;enseignement
                         </div>
                       </Link>
                       <Link href={`/clients-pdf/${client.id}`} style={{ textDecoration: "none" }}>

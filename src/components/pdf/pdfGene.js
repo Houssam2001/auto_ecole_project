@@ -94,7 +94,7 @@ export default function PDFGenerator() {
             <a id="download" download="generated.pdf">
                 Download PDF
             </a>
-            <img id="img" alt="PDF Preview" />
+            {/* <img id="img" alt="PDF Preview" /> */}
         </div>
     );
 }

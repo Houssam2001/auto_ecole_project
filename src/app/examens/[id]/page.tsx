@@ -1,6 +1,7 @@
 'use client';
 import { createExamen, updateExamenPratique, updateExamenTheorique } from '@/utils/supabase';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export default function ExamenId({ params }: {
@@ -122,7 +123,7 @@ export default function ExamenId({ params }: {
                         </div>
                     </form>
                 </div>
-                <img alt="examen" src="/driving.png" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" />
+                <Image width={500} height={500} alt="examen" src="/driving.png" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" />
             </div>
             </div>
         </section>)
