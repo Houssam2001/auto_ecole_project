@@ -37,14 +37,15 @@ export default function Auto() {
     );
 
     const labelsAndValues = [
-        { label: 'A1', value: 3231 },
-        { label: 'A', value: 3082 },
-        { label: 'B', value: 3231 },
-        { label: 'C', value: 3082 },
-        { label: 'D', value: 3231 },
-        { label: 'EB', value: 3231 },
-        { label: 'EC', value: 3231 },
-        { label: 'ED', value: 3231 },
+        { label: 'A1', value: 2100 },
+        { label: 'AM', value: 840 },
+        { label: 'A', value: 2100 },
+        { label: 'B', value: 2250 },
+        { label: 'C', value: 4150 },
+        { label: 'D', value: 4150 },
+        { label: 'EB', value: 2250 },
+        { label: 'EC', value: 4550 },
+        { label: 'ED', value: 4550 },
     ];
 
     const fetchAuto = async () => {
