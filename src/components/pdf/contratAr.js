@@ -44,7 +44,7 @@ export default async function generatePDF(id, formData) {
   const formattedDate = format(new Date(data.naissance), 'dd-MM-yyyy', { locale: fr });
 
   const fontInfo = await fetchPDFJSFont(
-    'http://themes.googleusercontent.com/static/fonts/droidarabickufi/v3/8W45GN15zj1qR-20QwKIxqPi4JPRJMb6v4DHFDoSX-k.ttf'
+    'https://themes.googleusercontent.com/static/fonts/droidarabickufi/v3/8W45GN15zj1qR-20QwKIxqPi4JPRJMb6v4DHFDoSX-k.ttf'
   );
   let pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
   let distanceFromRight = 10
