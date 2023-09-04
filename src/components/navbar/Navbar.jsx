@@ -48,9 +48,7 @@ const Navbar = () => {
           <div className="item">
            <Image width={50} height={50} src="https://images.pexels.com/photos/1967902/pexels-photo-1967902.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" className="avatar"/>
           </div> */}
-          <div className="hover:text-lg">
-          <LogoutButton />
-          </div>
+          
         </div>
       </div>
     </div>

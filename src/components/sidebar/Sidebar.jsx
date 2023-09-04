@@ -6,6 +6,7 @@ import { BsHouseDoorFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import Navbar from "../navbar/Navbar";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import LogoutButton from "../LogoutButton";
 export default function Sidebar() {
   const supabase = createClientComponentClient()
 
@@ -101,7 +102,9 @@ export default function Sidebar() {
                 </Link>
               </div>
               <div>
-                <Navbar />
+                <div className="hover:text-lg">
+                  <LogoutButton />
+                </div>
               </div>
 
             </div>
