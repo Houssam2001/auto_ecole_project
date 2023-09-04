@@ -31,6 +31,7 @@ export default function Login() {
         action="/auth/sign-in"
         method="post"
       >
+        <h1>Auto Ecole Manage</h1>
         <label className="text-md" htmlFor="email">
           Email
         </label>
