@@ -1,7 +1,6 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import AmiriRegular from '../../../public/fonts/Amiri-Regular.ttf'; // Adjust the path accordingly
 import path from 'path'; // Import the path module
 import { format } from 'date-fns';
 import fr from 'date-fns/locale/fr';
@@ -299,5 +298,5 @@ export default async function generatePDF(id, formData) {
   const footerY = doc.internal.pageSize.getHeight() - 10;
   doc.text(footerText, footerX, footerY);
 
-  return doc.output('arraybuffer');
+  return Promise.resolve(doc.output('arraybuffer'));
 }

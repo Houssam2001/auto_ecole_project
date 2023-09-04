@@ -9,7 +9,7 @@ import contratFr from '@/components/pdf/contratFr';
 
 
 
-export default function ContratArPDF({ params }: {
+export default function ContratFrPdf({ params }: {
     params: {
         id: string;
     };

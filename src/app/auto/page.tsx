@@ -35,10 +35,9 @@ export default function Auto() {
             />
         </div>
     );
-
     const labelsAndValues = [
-        { label: 'A1', value: 2100 },
         { label: 'AM', value: 840 },
+        { label: 'A1', value: 2100 },
         { label: 'A', value: 2100 },
         { label: 'B', value: 2250 },
         { label: 'C', value: 4150 },
