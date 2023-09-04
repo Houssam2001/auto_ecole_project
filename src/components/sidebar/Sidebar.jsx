@@ -3,17 +3,55 @@ import Link from "next/link";
 import sidebarItems from "@/ressources/side";
 import Head from "next/head";
 import { BsHouseDoorFill } from "react-icons/bs";
-import Image from "next/image";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import Navbar from "../navbar/Navbar";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 export default function Sidebar() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const supabase = createClientComponentClient()
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    id: '',
+    created_at: '',
+    nom: '',
+    gerant: '',
+    user_id: '',
+    telephone: '',
+    fax: '',
+    adresse: '',
+    patente: '',
+    date_rc: '',
+    ville: '',
+    rc: '',
+    email: '',
+    المدير: '',
+    arabic_ecole: '',
+    arabic_ville: '',
+    arabic_gerant: '',
+
+  });
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+  const fetchAuto = async () => {
+    try {
+      const { data: users, error } = await supabase.from('users').select('*');
+      if (error) {
+        throw new Error("Error fetching users.");
+      }
+      if (users && users.length > 0) {
+        setFormData(users[0]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    fetchAuto();
+  }, []);
   return (
+
     <div>
       <Head>
         <title>Sidebar</title>
@@ -22,45 +60,53 @@ export default function Sidebar() {
       </Head>
       <>
 
-          <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-            <div class="px-3 py-3 lg:px-5 lg:pl-3">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center sm:z-50 justify-start">
-                  <button
-                    onClick={toggleSidebar}
-                    aria-controls="logo-sidebar"
-                    type="button"
-                    className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <div class="px-3 py-3 lg:px-5 lg:pl-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center sm:z-50 justify-start">
+                <button
+                  onClick={toggleSidebar}
+                  aria-controls="logo-sidebar"
+                  type="button"
+                  className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                >
+                  <span className="sr-only">
+                    {sidebarOpen ? "Close sidebar" : "Open sidebar"}
+                  </span>
+                  <svg
+                    className="w-6 h-6"
+                    aria-hidden="true"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <span className="sr-only">
-                      {sidebarOpen ? "Close sidebar" : "Open sidebar"}
-                    </span>
-                    <svg
-                      className="w-6 h-6"
-                      aria-hidden="true"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-                    </svg>
-                  </button>
-                  <a href="https://flowbite.com" className="flex ml-2 md:mr-24">
-                <Image
+                    <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+                  </svg>
+                </button>
+                <Link href="/" className="flex ml-2 md:mr-24">
+                  {/* <Image
                   width={50}
                   height={50}
                   src="https://flowbite.com/docs/images/logo.svg"
                   className="h-8 mr-3"
                   alt="FlowBite Logo"
-                />
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  Auto Ecole
-                </span> </a>
-                </div>
-
+                /> */}
+                  {
+                    formData.nom === '' ?
+                      (<></>)
+                      : (<><span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                        Auto Ecole {formData.nom.toUpperCase()}
+                      </span></>)
+                  }
+                </Link>
               </div>
+              <div>
+                <Navbar />
+              </div>
+
             </div>
-          </nav>
+          </div>
+        </nav>
         <aside
           id="logo-sidebar"
           className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -88,7 +134,9 @@ export default function Sidebar() {
                 <ul className="space-y-2 font-medium">
                   {item.sub.map((item1, index) => (
                     <li key={index}>
-                      <Link href={item1.linkTo}
+                      <Link
+                        href={item1.linkTo}
+                        onClick={toggleSidebar}
                         className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                       >
                         <div
@@ -110,8 +158,6 @@ export default function Sidebar() {
             ))}
           </div>
         </aside>
-
-
       </>
     </div>
   )

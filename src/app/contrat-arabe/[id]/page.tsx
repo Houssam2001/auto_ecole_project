@@ -4,7 +4,6 @@ import generateVoituresPDF from '@/components/pdf/pdfGenerator';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { useEffect, useState } from 'react';
-import { supabase } from "@/utils/client";
 import contratAr from '@/components/pdf/contratAr';
 import contratFr from '@/components/pdf/contratFr';
 
@@ -15,6 +14,8 @@ export default function ContratArPDF({ params }: {
         id: string;
     };
 }) {
+    const supabase = createClientComponentClient()
+
     const [pdfUrl, setPdfUrl] = useState(null || '');
     const [formData, setFormData] = useState({
         id: '',

@@ -11,27 +11,7 @@ const DepensesTable = () => {
     { field: "date", headerName: "Date", width: 150 },
     { field: "value", headerName: "Valeur", width: 150 },
     { field: "title", headerName: "Titre", width: 250 },
-    { field: "Commentaire", headerName: "Commentaire", width: 350 },
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   width: 150,
-    //   renderCell: (params) => {
-    //     return (
-    //       <div className="cellAction">
-    //         <Link href={`/depenses/${params.row.id}`} style={{ textDecoration: "none" }}>
-    //           <div className="viewButton">View</div>
-    //         </Link>
-    //         <div
-    //           className="deleteButton"
-    //           onClick={() => handleDelete(params.row.id)}
-    //         >
-    //           Delete
-    //         </div>
-    //       </div>
-    //     );
-    //   },
-    // },
+    { field: "commentaire", headerName: "Commentaire", width: 350 },
   ];
   const fetchDepenses = async () => {
     try {

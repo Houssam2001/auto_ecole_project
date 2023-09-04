@@ -9,10 +9,12 @@ import { createClient2, uploadFile } from "@/utils/supabase";
 import "react-simple-keyboard/build/css/index.css";
 import Image from "next/image";
 import Select from 'react-select';
-import { supabase } from "@/utils/client";
 import { v4 as uuidv4 } from "uuid";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const New = () => {
+  const supabase = createClientComponentClient()
+
   const [file, setFile] = useState("");
   const [clientData, setClientData] = useState({});
   const [sexe, setSexe] = useState("homme");

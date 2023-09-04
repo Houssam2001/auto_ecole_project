@@ -18,7 +18,7 @@ const sidebarItems = [
             { text: 'Condidats', icon: <BsPeopleFill /> ,linkTo: "/clients"},
             { text: 'Ajouter condidat', icon: <BsPlusCircleFill/> ,linkTo: "/new"},
             { text: 'Suivi des examens', icon: <BsExclamationCircleFill/>,linkTo: "/examens" },
-            { text: 'Registre', icon: <BsFileTextFill/> ,linkTo: "/"},
+            { text: 'Registre', icon: <BsFileTextFill/> ,linkTo: "/registre"},
         ],
     },
     {

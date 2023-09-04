@@ -45,7 +45,7 @@ async function createInvoicePDF(transactionId,formData) {
   doc.text(`Candidat
 ${candidateData.nom} ${candidateData.prenom}
 ${candidateData.Adresse}
-${candidateData.city}
+${candidateData.ville}
 Tél: ${candidateData.phone}
 Date de facture: ${formattedDate}`, clientSectionX, clientSectionY + 20);
 
@@ -95,8 +95,10 @@ doc.autoTable({
   doc.text(`Candidat
 ${candidateData.nom} ${candidateData.prenom}
 ${candidateData.Adresse}
-${candidateData.city}
-Tél: ${candidateData.phone}`, directorSectionX, clientSectionY + 20);
+${candidateData.ville}
+Tél: ${candidateData.phone}
+Date de facture: ${formattedDate}`
+, directorSectionX, clientSectionY + 20);
 
   doc.autoTable({
     columns: [{ header: 'Date' }, { header: 'Montant' }, { header: 'Montant Global' }],

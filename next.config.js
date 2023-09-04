@@ -53,6 +53,12 @@ const nextConfig = withFonts({
         port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn3d.iconscout.com',
+        port: '',
+        // pathname: '/account123/**',
+      },
     ],
   },
   experimental: {

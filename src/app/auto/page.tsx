@@ -1,8 +1,10 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { supabase } from "@/utils/client";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function Auto() {
+    const supabase = createClientComponentClient()
+
     const [formData, setFormData] = useState({
         id: '',
         created_at: '',

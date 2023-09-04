@@ -18,7 +18,7 @@ const TransactionsList = ({ amount_id }: { amount_id: any }) => {
                 return (
                     <div className="cellAction">
                         <Link href={`/transaction/${params.row.id}`} style={{ textDecoration: "none" }}>
-                            <div className="viewButton">View</div>
+                            <div className="viewButton">Voir</div>
                         </Link>
                         <div
                             className="deleteButton"

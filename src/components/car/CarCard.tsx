@@ -50,7 +50,7 @@ const CarCard = ({ car }: CarCardProps) => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </span>
-                        <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">View More</span>
+                        <span className="relative w-full text-left transition-colors duration-200 ease-in-out group-hover:text-white">Voir More</span>
                     </a>
                     {/* <button
                     onClick={() => setIsOpen(true)}

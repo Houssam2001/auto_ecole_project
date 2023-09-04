@@ -102,7 +102,7 @@ const createTransaction = async (amount_id, clientId, value, date) => {
   try {
     const { data, error } = await supabase
       .from("transactions")
-      .insert({ value: value, date: date, amount_id: amount_id, client_id: clientId });
+      .insert({ value: value, date: date, amount_id: amount_id, client_id: clientId,user_id: (await (supabase2.auth.getUser())).data.user.id });
 
     if (error) {
       throw error;

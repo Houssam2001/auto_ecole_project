@@ -1,6 +1,6 @@
 'use client'
 import createInvoicePDF from '@/components/pdf/invoice';
-import { supabase } from '@/utils/client';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect, useState } from 'react';
 
 
@@ -10,6 +10,8 @@ export default function TransactionPdf({ params }: {
         id: string;
     };
 }) {
+    const supabase = createClientComponentClient()
+
     const [pdfUrl, setPdfUrl] = useState(null || '');
     const [formData, setFormData] = useState({
         id: '',

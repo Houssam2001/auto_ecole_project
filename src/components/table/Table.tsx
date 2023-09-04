@@ -1,10 +1,18 @@
+import "./table.scss"
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Image from "next/image";
+import { DataGrid, GridColDef, frFR } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import './datatable.scss'
-import { DataGrid, GridColDef,frFR } from "@mui/x-data-grid";
+import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import DepenseModal from "./DepensesForm";
 
-const PaymentTable = () => {
+const List = () => {
   const supabase = createClientComponentClient()
   const [data, setData] = useState<any[]>([])
   const [clients, setClients] = useState<any[]>([]); // New state for storing client data
@@ -41,12 +49,11 @@ const PaymentTable = () => {
   ];
   const fetchDepenses = async () => {
     try {
-      const { data: transactions, error } = await supabase.from("transactions").select("*");
+      const { data: transactions, error } = await supabase.from("transactions").select("*").limit(20);
       if (error) {
         throw new Error("Error fetching transactions.");
       }
       setData(transactions);
-      console.log(transactions)
       const clientIds = transactions.map(transaction => transaction.client_id);
       const { data: clientData, error: clientError } = await supabase
         .from("clients")
@@ -71,16 +78,8 @@ const PaymentTable = () => {
       console.error(error);
     }
   };
-
   return (
-    <div className="datatable  group-enabled">
-      <div className="datatableTitle">
-        {/* Add New User */}
-        {/* <Link href="/new" className="link"> */}
-        {/* <DepenseModal/> */}
-        {/* </Link> */}
-      </div>
-      <div style={{ height: 530, width: "100%" }}>
+    <div style={{ height: 530, width: "100%" }}>
         <DataGrid
           rows={data.map(transaction => ({
             ...transaction,
@@ -93,8 +92,7 @@ const PaymentTable = () => {
           localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
           />
       </div>
-    </div>
-  );
-};
+  )
+}
 
-export default PaymentTable;
+export default List
