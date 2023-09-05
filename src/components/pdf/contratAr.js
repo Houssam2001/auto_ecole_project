@@ -62,21 +62,55 @@ export default async function generatePDF(id, formData) {
   doc.text(` ${data.CIN}`, 160, 160);
   doc.text(` ${formattedDate}`, 50, 160);
   doc.text(` ${formData.rc}`, 120, 110);
-  doc.text(` ${formData.telephone}`, 150, 120);
-  doc.text(` ${formData.fax}`, 40, 120);
-  doc.text(` ${formData.email}`, 100, 130);
+  doc.text(` ${formData.telephone}`, 160, 120);
+  doc.text(` ${formData.fax}`, 60, 120);
+  doc.text(` ${formData.license}`, 70, 80);
+  doc.text(` ${formData.email}`, 120, 130);
   doc.text(` ${data.category}`, pageWidth - distanceFromRight - 54, 221);
   doc.text(` ${formData.patente}`, pageWidth - distanceFromRight - 104, 100);
+  doc.text('--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',1, 145)
+  doc.text('--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',1, 190)
 
 
   doc.setFont(fontInfo.family);
-  doc.text(` ${data.arabic_nom}  ${data.arabic_prenom}`, 40, 185);
+  doc.text(` ${data.arabic_nom}  ${data.arabic_prenom}`, 165, 150);
   doc.text(` ${data.arabic_adresse}  `, 170, 170);
+  doc.text(` ${data.arabic_ville}  `, 120, 160);
   doc.text(` ${formData.arabic_ecole}  `, 150, 70);
   doc.text(` ${formData.arabic_ville}  `, 60, 110);
-  doc.text(` ${formData.arabic_ecole}  `, 40, 140);
+  doc.text(` ${formData.arabic_ville}  `, 60, 110);
+  // doc.text(` ${formData.arabic_ecole}  `, 40, 140);
   // Define font families
+
   const arabicFontFamily = fontInfo.family;
+
+  // ... (previous code)
+
+  const arabicAdresse2 = formData.arabic_adresse;
+  const regex2 = /(\d+,\d+)|(\d+)|([\p{Script=Arabic}\s,]+)/gu;
+  const matches2 = arabicAdresse2.matchAll(regex2);
+
+  // Set the font for the Arabic text
+  doc.setFont(arabicFontFamily);
+
+  let xPosition2 = 175; // Initial X position
+  const yPosition2 = 90; // Y position for both text and numbers
+
+  // Loop through text parts and place numbers back in their original positions
+  for (const match of matches2) {
+    const part = match[0];
+    if (/^\d+(,\d+)?$/.test(part)) {
+      // Number part
+      doc.setFont('Arial'); // Use Arial font for numbers
+      doc.text(part, xPosition2, yPosition2);
+      xPosition2 -= doc.getStringUnitWidth(part) * part.length+18;
+    } else {
+      // Text part
+      doc.setFont(fontInfo.family); // Use Arabic font for text
+      doc.text(part, xPosition2, yPosition2);
+      xPosition2 += doc.getStringUnitWidth(part) -5;
+    }
+  }
 
   // ... (previous code)
 
@@ -87,7 +121,7 @@ export default async function generatePDF(id, formData) {
   // Set the font for the Arabic text
   doc.setFont(arabicFontFamily);
 
-  let xPosition = 130; // Initial X position
+  let xPosition = 175; // Initial X position
   const yPosition = 170; // Y position for both text and numbers
 
   // Loop through text parts and place numbers back in their original positions
@@ -97,12 +131,12 @@ export default async function generatePDF(id, formData) {
       // Number part
       doc.setFont('Arial'); // Use Arial font for numbers
       doc.text(part, xPosition, yPosition);
-      xPosition -= doc.getStringUnitWidth(part) * part.length+9;
+      xPosition -= doc.getStringUnitWidth(part) * part.length+15;
     } else {
       // Text part
       doc.setFont(fontInfo.family); // Use Arabic font for text
       doc.text(part, xPosition, yPosition);
-      xPosition += doc.getStringUnitWidth(part) -17;
+      xPosition += doc.getStringUnitWidth(part) -15;
     }
   }
   doc.setFont(fontInfo.family);
@@ -118,14 +152,14 @@ export default async function generatePDF(id, formData) {
   doc.text(`الهاتف`, 190, 120);
   doc.text(`الفاكس`, 90, 120);
   doc.text(`البريدالإلكتروني`, 179, 130);
-  doc.text(`المسماة`, 80, 140);
-  doc.text(`والسيدة`, 190, 150);
+  doc.text(`المسماة المؤسسة `, 50, 140);
+  data.sexe==='homme'?doc.text(`والسيد`, 190, 150):doc.text(`والسيدة`, 190, 150)
   doc.text(`رقم ب و ت إ`, 184, 160);
   doc.text(`المزداد ب`, 130, 160);
   doc.text(`بتاريخ `, 84, 160);
   doc.text(`القاطن ب `, 189, 170);
   doc.text(`رقم تسجيل المرشح الممنوح من طرف الإدارة`, 136, 180);
-  doc.text(`المسمى`, 90, 185);
+  data.sexe==='homme'?doc.text(`المسمى المرشح`, 50, 185):data.sexe==='femme'?doc.text(`المسمى المرشحة`, 50, 185):doc.text(`المسمى المرشح`, 50, 185)
   doc.text(`اتفـــــــق الطرفـــــــان علـــــى ما يلــــــي`, 80, 195);
 
   const lineHeight = 7;
@@ -155,13 +189,11 @@ export default async function generatePDF(id, formData) {
   // Article 2: Contract Duration
   doc.text('المادة الثانية مدة العقد', pageWidth - distanceFromRight, yPos, "right");
   yPos += lineHeight;
-  yPos += lineHeight;
   doc.text('يمتد هذا العقد لمدة ستة أشهر ابتداء من تاريخ توقيعه و يمكن تمديده في حالة الاتفاق بين الطرفين ملدة لا تتعدى ثلاثة أشهر.', pageWidth - distanceFromRight, yPos, "right");
   yPos += lineHeight + 2;
 
   // Article 3: Institute's Commitments
   doc.text('المادة التزامات المؤسسة', pageWidth - distanceFromRight, yPos, "right");
-  yPos += lineHeight;
   yPos += lineHeight;
   doc.text('تلتزم المؤسسة بتكوين المرشح طبقا للبرنامج الوطني لتعليم السياقة.', pageWidth - distanceFromRight, yPos, "right");
   yPos += lineHeight;
@@ -199,7 +231,6 @@ export default async function generatePDF(id, formData) {
     yPos,
     "right");
   yPos += lineHeight;
-  yPos += lineHeight;
   doc.text('إذا توقف المرشح عن التكوين سواء بصفة مؤقتة أو نهائية وكيفما كانت الأسباب يلتزم بإخبارالمؤسسة كتابيا', pageWidth - distanceFromRight,
     yPos,
     "right");
@@ -224,7 +255,6 @@ export default async function generatePDF(id, formData) {
     yPos,
     "right");
   yPos += lineHeight;
-  yPos += lineHeight;
   doc.text('اتفق الطرفان على تحديد عدد ساعات التكوين في  ساعة بالنسبة للتكوين النظري و ساعة بالنسبة للتكوين التطبيقي لا', pageWidth - distanceFromRight,
     yPos,
     "right");
@@ -237,7 +267,6 @@ export default async function generatePDF(id, formData) {
     yPos,
     "right");
   yPos += lineHeight;
-  yPos += lineHeight;
   doc.text('تحتسب التعريفة الإجمالية للتكوين على أساس تعريفة ساعة التكوين النظري والتطبيقي المحددة في المادة من القرار الذي يحدد', pageWidth - distanceFromRight,
     yPos,
     "right");
@@ -249,7 +278,6 @@ export default async function generatePDF(id, formData) {
   doc.text('المادة كيفيات الأداء', pageWidth - distanceFromRight,
     yPos,
     "right");
-  yPos += lineHeight;
   yPos += lineHeight;
   doc.text('تسلم للمرشح فاتورة تحدد المبالغ المدفوعة للمؤسسة تكون هذه الفاتورة مؤرخة وموقعة من طرف صاحب المؤسسة تحمل هذه', pageWidth - distanceFromRight,
     yPos,
