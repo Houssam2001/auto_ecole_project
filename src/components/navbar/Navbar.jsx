@@ -17,18 +17,18 @@ const Navbar = () => {
   const {dispatch} = useContext(DarkModeContext)
 
   return (
-    <div className="navbar">
+    <div className="navbar ">
       <div className="wrapper">
-        <div className="search">
+        {/* <div className="search">
           <input type="text" placeholder="Search...." />
           <SearchOutlinedIcon />
-        </div>
+        </div> */}
         <div className="items">
-          <div className="item">
+          {/* <div className="item">
             <LanguageOutlinedIcon className="icon" />
             English
-          </div>
-          <div className="item">
+          </div> */}
+          {/* <div className="item">
             <DarkModeOutlined className="icon" onClick={() => dispatch({type:"TOGGLE"})}/>
           </div>
           <div className="item">
@@ -46,11 +46,9 @@ const Navbar = () => {
             <ListOutLinedIcon className="icon" />
           </div>
           <div className="item">
-           {/* <Image width={50} height={50} src="https://images.pexels.com/photos/1967902/pexels-photo-1967902.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" className="avatar"/> */}
-          </div>
-          <div className="item">
-          <LogoutButton />
-          </div>
+           <Image width={50} height={50} src="https://images.pexels.com/photos/1967902/pexels-photo-1967902.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" className="avatar"/>
+          </div> */}
+          
         </div>
       </div>
     </div>

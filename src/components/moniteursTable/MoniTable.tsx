@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import './datatable.scss'
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, frFR } from "@mui/x-data-grid";
 import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import MoniteurModal from "./MoniteurModal";
-import {  BsFillCheckCircleFill, BsFillXCircleFill } from "react-icons/bs";
+import { BsFillCheckCircleFill, BsFillXCircleFill } from "react-icons/bs";
 import { green, red } from "@mui/material/colors";
-import dynamic from "next/dynamic";
-import { getMoniteurs } from "@/utils/supabase";
 
 const Moniteurstable = () => {
     const supabase = createClientComponentClient()
     const [data, setData] = useState<any[]>([])
- 
+
     const columns: GridColDef[] = [
         { field: "carteMoni", headerName: "carte moniteur", width: 150 },
         { field: "nom", headerName: "nom", width: 120 },
@@ -22,7 +20,7 @@ const Moniteurstable = () => {
             headerName: "theorique",
             width: 100,
             renderCell: (params) => (
-                params.row.theorique ? <BsFillCheckCircleFill style={{ color: green[700] }} /> : <BsFillXCircleFill style={{ color: red[700] }}/>
+                params.row.theorique ? <BsFillCheckCircleFill style={{ color: green[700] }} /> : <BsFillXCircleFill style={{ color: red[700] }} />
             ),
         },
         {
@@ -30,7 +28,7 @@ const Moniteurstable = () => {
             headerName: "pratique",
             width: 100,
             renderCell: (params) => (
-                params.row.pratique ? <BsFillCheckCircleFill style={{ color: green[700] }} /> : <BsFillXCircleFill style={{ color: red[700] }}/>
+                params.row.pratique ? <BsFillCheckCircleFill style={{ color: green[700] }} /> : <BsFillXCircleFill style={{ color: red[700] }} />
             ),
         },
         { field: "date", headerName: "date Cap", width: 150 },
@@ -42,33 +40,34 @@ const Moniteurstable = () => {
                 return (
                     <div className="cellAction">
                         <Link href={`/moniteurs/${params.row.id}`} style={{ textDecoration: "none" }}>
-                            <div className="viewButton">View</div>
+                            <div className="viewButton">Voir</div>
                         </Link>
                         <div
                             className="deleteButton"
                             onClick={() => handleDelete(params.row.id)}
                         >
-                            Delete
+                            Supprimer
                         </div>
                     </div>
                 );
             },
         },
     ];
-    const fetchMoniteurs = async () => {
+    const fetchClients = async () => {
         try {
-            const moniteurs = await getMoniteurs();
-            setData(moniteurs);
-            console.log(moniteurs);
+            const { data: clients, error } = await supabase.from("moniteurs").select("*");
+            if (error) {
+                throw new Error("Error fetching clients.");
+            }
+            setData(clients);
+            console.log(clients)
         } catch (error: any) {
             console.error(error);
         }
     };
-
     useEffect(() => {
-        fetchMoniteurs();
-    }, [data,supabase]);
-
+        fetchClients();
+    }, [[supabase, setData]]);
     const handleDelete = async (id: any) => {
         try {
             setData((prevData) => prevData.filter((item: any) => item.id !== id));
@@ -80,13 +79,16 @@ const Moniteurstable = () => {
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                Add New Moniteur
+                Ajouter Nouveau Moniteur
                 <div className="link">
                     <MoniteurModal />
                 </div>
             </div>
             <div style={{ height: 530, width: "100%" }}>
-                <DataGrid rows={data} columns={columns} />
+                <DataGrid
+                    localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+
+                    rows={data} columns={columns} />
             </div>
         </div>
     );
