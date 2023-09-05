@@ -99,7 +99,7 @@ export const userInput = [
       title: "Matricule :",
       label: "matricule",
       type: "text",
-      placeholder: "Carte Moniteur",
+      placeholder: "Matricule",
       width: 150,
     },
     {
@@ -123,7 +123,7 @@ export const userInput = [
       title: "Categorie :",
       label: "categorie",
       type: "text",
-      placeholder: "b3212",
+      placeholder: "Categorie",
       width: 100,
     },
   ];

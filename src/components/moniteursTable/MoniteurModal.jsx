@@ -45,7 +45,7 @@ const MoniteurModal = () => {
                 className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button"
             >
-                Add Moniteur
+                Ajouter un moniteur
             </button>
 
             {modalVisible && (
@@ -62,7 +62,7 @@ const MoniteurModal = () => {
                                 data-modal-hide="moniteur-modal"
                                 onClick={toggleModal}
                             >
-                                close
+                                X
                             </button>
                             <div className="px-6 py-6 lg:px-8">
                                 <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">

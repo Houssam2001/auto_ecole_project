@@ -20,7 +20,7 @@ const Datatable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 170,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -31,7 +31,7 @@ const Datatable = () => {
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
-              Delete
+              Supprimmer
             </div>
           </div>
         );
@@ -94,9 +94,9 @@ const Datatable = () => {
   return (
     <div className="datatable  group-enabled">
       <div className="datatableTitle">
-        Add New User
+        Ajouter Nouveau Condidat
         <Link href="/new" className="link">
-          Add New
+          Ajouter 
         </Link>
       </div>
       <div className="group-enabled  p-4">

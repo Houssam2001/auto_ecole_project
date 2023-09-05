@@ -24,7 +24,7 @@ const TransactionsList = ({ amount_id }: { amount_id: any }) => {
                             className="deleteButton"
                             onClick={() => handleDelete(params.row.id)}
                         >
-                            Delete
+                            Supprimmer
                         </div>
                     </div>
                 );

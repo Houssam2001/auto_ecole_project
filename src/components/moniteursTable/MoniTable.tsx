@@ -46,7 +46,7 @@ const Moniteurstable = () => {
                             className="deleteButton"
                             onClick={() => handleDelete(params.row.id)}
                         >
-                            Delete
+                            Supprimer
                         </div>
                     </div>
                 );
@@ -79,7 +79,7 @@ const Moniteurstable = () => {
     return (
         <div className="datatable">
             <div className="datatableTitle">
-                Add New Moniteur
+                Ajouter Nouveau Moniteur
                 <div className="link">
                     <MoniteurModal />
                 </div>

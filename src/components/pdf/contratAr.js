@@ -57,26 +57,55 @@ export default async function generatePDF(id, formData) {
   doc.text(`رخصةالسياقة من صنف`, 90, 30);
   doc.text(`الرقم:`, 190, 40);
   doc.setFont('Arial')
-  doc.text(` ${data.id}`, 110, 40);
+  // doc.text(` ${data.id}`, 110, 40);
+  doc.text(` ${data.category}`, 80, 30);
+  doc.text(` ${data.category}`, 80, 30);
   doc.text(` ${data.category}`, 80, 30);
   doc.text(` ${data.CIN}`, 160, 160);
-  doc.text(` ${formattedDate}`, 50, 160);
+  doc.text(` ${data.CIN}`, 160, 160);
+  doc.text(` ${data.CIN}`, 160, 160);
+  doc.text(` ${formattedDate}`, 60, 160);
+  doc.text(` ${formattedDate}`, 60, 160);
+  doc.text(` ${formattedDate}`, 60, 160);
+  doc.text(` ${formData.rc}`, 120, 110);
+  doc.text(` ${formData.rc}`, 120, 110);
   doc.text(` ${formData.rc}`, 120, 110);
   doc.text(` ${formData.telephone}`, 160, 120);
+  doc.text(` ${formData.telephone}`, 160, 120);
+  doc.text(` ${formData.telephone}`, 160, 120);
+  doc.text(` ${formData.fax}`, 60, 120);
+  doc.text(` ${formData.fax}`, 60, 120);
   doc.text(` ${formData.fax}`, 60, 120);
   doc.text(` ${formData.license}`, 70, 80);
+  doc.text(` ${formData.license}`, 70, 80);
+  doc.text(` ${formData.license}`, 70, 80);
+  doc.text(` ${formData.email}`, 120, 130);
+  doc.text(` ${formData.email}`, 120, 130);
   doc.text(` ${formData.email}`, 120, 130);
   doc.text(` ${data.category}`, pageWidth - distanceFromRight - 54, 221);
+  doc.text(` ${data.category}`, pageWidth - distanceFromRight - 54, 221);
+  doc.text(` ${data.category}`, pageWidth - distanceFromRight - 54, 221);
   doc.text(` ${formData.patente}`, pageWidth - distanceFromRight - 104, 100);
-  doc.text('--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',1, 145)
-  doc.text('--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------',1, 190)
+  doc.text(` ${formData.patente}`, pageWidth - distanceFromRight - 104, 100);
+  doc.text(` ${formData.patente}`, pageWidth - distanceFromRight - 104, 100);
+  doc.text('________________________________________________________________________________________________________________________________________________________________________________',1, 144)
+  doc.text('________________________________________________________________________________________________________________________________________________________________________________',1, 189)
 
 
   doc.setFont(fontInfo.family);
   doc.text(` ${data.arabic_nom}  ${data.arabic_prenom}`, 165, 150);
+  doc.text(` ${data.arabic_nom}  ${data.arabic_prenom}`, 165, 150);
+  doc.text(` ${data.arabic_nom}  ${data.arabic_prenom}`, 165, 150);
+  doc.text(` ${data.arabic_adresse}  `, 170, 170);
+  doc.text(` ${data.arabic_adresse}  `, 170, 170);
   doc.text(` ${data.arabic_adresse}  `, 170, 170);
   doc.text(` ${data.arabic_ville}  `, 120, 160);
+  doc.text(` ${data.arabic_ville}  `, 120, 160);
+  doc.text(` ${data.arabic_ville}  `, 120, 160);
   doc.text(` ${formData.arabic_ecole}  `, 150, 70);
+  doc.text(` ${formData.arabic_ecole}  `, 150, 70);
+  doc.text(` ${formData.arabic_ecole}  `, 150, 70);
+  doc.text(` ${formData.arabic_ville}  `, 60, 110);
   doc.text(` ${formData.arabic_ville}  `, 60, 110);
   doc.text(` ${formData.arabic_ville}  `, 60, 110);
   // doc.text(` ${formData.arabic_ecole}  `, 40, 140);
@@ -111,8 +140,20 @@ export default async function generatePDF(id, formData) {
       xPosition2 += doc.getStringUnitWidth(part) -5;
     }
   }
-
-  // ... (previous code)
+  for (const match of matches2) {
+    const part = match[0];
+    if (/^\d+(,\d+)?$/.test(part)) {
+      // Number part
+      doc.setFont('Arial'); // Use Arial font for numbers
+      doc.text(part, xPosition2, yPosition2);
+      xPosition2 -= doc.getStringUnitWidth(part) * part.length+18;
+    } else {
+      // Text part
+      doc.setFont(fontInfo.family); // Use Arabic font for text
+      doc.text(part, xPosition2, yPosition2);
+      xPosition2 += doc.getStringUnitWidth(part) -5;
+    }
+  }
 
   const arabicAdresse = data.arabic_adresse;
   const regex = /(\d+,\d+)|(\d+)|([\p{Script=Arabic}\s,]+)/gu;
