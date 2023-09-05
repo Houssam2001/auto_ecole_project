@@ -1,7 +1,10 @@
 'use client'
+import { green, red } from "@mui/material/colors";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image"
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { BsFillCheckCircleFill, BsFillXCircleFill } from "react-icons/bs";
 
 export default function ProfileMoniteur({ params }: {
     params: {
@@ -82,13 +85,13 @@ export default function ProfileMoniteur({ params }: {
             {moniteur ? (
                 <div className="h-full bg-gray-200 p-8">
                     <div className="bg-white rounded-lg shadow-xl pb-8">
-                        <div x-data="{ openSettings: true }" className="absolute right-12 mt-4 rounded">
+                        {/* <div x-data="{ openSettings: true }" className="absolute right-12 mt-4 rounded">
                             <button className="border border-gray-400 p-2 rounded text-gray-300 hover:text-gray-300 bg-gray-100 bg-opacity-10 hover:bg-opacity-20" title="Settings">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                                 </svg>
-                            </button>
-                            <div x-show="openSettings" className="bg-white absolute right-0 w-40 py-2 mt-1 border border-gray-200 shadow-2xl" style={{ display: 'none' }}>
+                            </button> */}
+                        {/* <div x-show="openSettings" className="bg-white absolute right-0 w-40 py-2 mt-1 border border-gray-200 shadow-2xl" style={{ display: 'none' }}>
                                 <div className="py-2 border-b">
                                     <p className="text-gray-400 text-xs px-6 uppercase mb-1">Settings</p>
                                     <button className="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200">
@@ -119,13 +122,13 @@ export default function ProfileMoniteur({ params }: {
                                         <span className="text-sm text-gray-700">Report</span>
                                     </button>
                                 </div>
-                            </div>
-                        </div>
+                            </div> */}
+                        {/* </div> */}
                         <div className="w-full h-[250px]">
                             <Image width={500} height={500} src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg" className="w-full h-full rounded-tl-lg rounded-tr-lg" alt={""} />
                         </div>
                         <div className="flex flex-col items-center -mt-20">
-                            <Image width={50} height={50} src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" className="w-40 border-4 border-white rounded-full" alt={""} />
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVxhAxJ4D7MOeTTj6kR9PBeZonW5HM7giKjTbEmR-HMBwf3G1VqGnlwpO1kWrdyIZu8_U&usqp=CAU" className="w-40 border-4 border-white rounded-full" alt={""} />
                             <div className="flex items-center space-x-2 mt-2">
                                 <p className="text-2xl">{moniteur.nom}  {moniteur.prenom}</p>
                                 <span className="bg-blue-500 rounded-full p-1" title="Verified">
@@ -134,8 +137,8 @@ export default function ProfileMoniteur({ params }: {
                                     </svg>
                                 </span>
                             </div>
-                            <p className="text-gray-700">Senior Software Engineer at Tailwind CSS</p>
-                            <p className="text-sm text-gray-500">New York, USA</p>
+                            <p className="text-gray-700">Moniteur</p>
+                            {/* <p className="text-sm text-gray-500">New York, USA</p> */}
                         </div>
                         <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
                             {/* <div className="flex items-center space-x-4 mt-2">
@@ -158,7 +161,7 @@ export default function ProfileMoniteur({ params }: {
                     <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
                         <div className="w-full flex flex-col 2xl:w-1/3">
                             <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
-                                <h4 className="text-xl text-gray-900 font-bold">Personal Info</h4>
+                                <h4 className="text-xl text-gray-900 font-bold">Informations Personnelle</h4>
                                 <ul className="mt-2 text-gray-700">
                                     <li className="flex border-y py-2">
                                         <span className="font-bold w-24">Nom et Prenom:</span>
@@ -173,21 +176,30 @@ export default function ProfileMoniteur({ params }: {
                                         <span className="text-gray-700">{moniteur.cin}</span>
                                     </li>
                                     <li className="flex border-b py-2">
-                                        <span className="font-bold w-24">Mobile:</span>
-                                        <span className="text-gray-700">(123) 123-1234</span>
+                                        <span className="font-bold w-24">Carte Moniteur:</span>
+                                        <span className="text-gray-700">{moniteur.carteMoni}</span>
                                     </li>
                                     <li className="flex border-b py-2">
-                                        <span className="font-bold w-24">Email:</span>
-                                        <span className="text-gray-700">amandaross@example.com</span>
+                                        <span className="font-bold w-24">Date:</span>
+                                        <span className="text-gray-700">{moniteur.date}</span>
                                     </li>
                                     <li className="flex border-b py-2">
-                                        <span className="font-bold w-24">Location:</span>
-                                        <span className="text-gray-700">New York, US</span>
+                                        <span className="font-bold w-28">Pratique:</span>
+                                        <span className="text-gray-700"> {moniteur.pratique === true ? (
+                                            <BsFillCheckCircleFill style={{ color: green[700] }} />
+                                        ) : (
+                                            <BsFillXCircleFill style={{ color: red[700] }} />
+                                        )}</span>
                                     </li>
                                     <li className="flex border-b py-2">
-                                        <span className="font-bold w-24">Languages:</span>
-                                        <span className="text-gray-700">English, Spanish</span>
+                                        <span className="font-bold w-28">Theorique:</span>
+                                        <span className="text-gray-700"> {moniteur.theorique === true ? (
+                                            <BsFillCheckCircleFill style={{ color: green[700] }} />
+                                        ) : (
+                                            <BsFillXCircleFill style={{ color: red[700] }} />
+                                        )}</span>
                                     </li>
+
                                     {/* <li className="flex items-center border-b py-2 space-x-2">
                                         <span className="font-bold w-24">Elsewhere:</span>
                                         <a href="#" title="Facebook">
@@ -205,93 +217,14 @@ export default function ProfileMoniteur({ params }: {
                                     </li> */}
                                 </ul>
                             </div>
-                            <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 p-8">
-                                <h4 className="text-xl text-gray-900 font-bold">Activity log</h4>
-                                <div className="relative px-4">
-                                    <div className="absolute h-full border border-dashed border-opacity-20 border-secondary"></div>
 
-                                    <div className="flex items-center w-full my-6 -ml-1.5">
-                                        <div className="w-1/12 z-10">
-                                            <div className="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
-                                        </div>
-                                        <div className="w-11/12">
-                                            <p className="text-sm">Profile informations changed.</p>
-                                            <p className="text-xs text-gray-500">3 min ago</p>
-                                        </div>
-                                    </div>
-                                    {/* <!-- end::Timeline item -->
-
-                        <!-- start::Timeline item --> */}
-                                    <div className="flex items-center w-full my-6 -ml-1.5">
-                                        <div className="w-1/12 z-10">
-                                            <div className="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
-                                        </div>
-                                        <div className="w-11/12">
-                                            <p className="text-sm">
-                                                Connected with <a href="#" className="text-blue-600 font-bold">Colby Covington</a>.</p>
-                                            <p className="text-xs text-gray-500">15 min ago</p>
-                                        </div>
-                                    </div>
-                                    {/* <!-- end::Timeline item -->
-
-                        <!-- start::Timeline item --> */}
-                                    <div className="flex items-center w-full my-6 -ml-1.5">
-                                        <div className="w-1/12 z-10">
-                                            <div className="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
-                                        </div>
-                                        <div className="w-11/12">
-                                            <p className="text-sm">Invoice <a href="#" className="text-blue-600 font-bold">#4563</a> was created.</p>
-                                            <p className="text-xs text-gray-500">57 min ago</p>
-                                        </div>
-                                    </div>
-                                    {/* <!-- end::Timeline item -->
-
-                        <!-- start::Timeline item --> */}
-                                    <div className="flex items-center w-full my-6 -ml-1.5">
-                                        <div className="w-1/12 z-10">
-                                            <div className="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
-                                        </div>
-                                        <div className="w-11/12">
-                                            <p className="text-sm">
-                                                Message received from <a href="#" className="text-blue-600 font-bold">Cecilia Hendric</a>.</p>
-                                            <p className="text-xs text-gray-500">1 hour ago</p>
-                                        </div>
-                                    </div>
-                                    {/* <!-- end::Timeline item -->
-
-                        <!-- start::Timeline item --> */}
-                                    <div className="flex items-center w-full my-6 -ml-1.5">
-                                        <div className="w-1/12 z-10">
-                                            <div className="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
-                                        </div>
-                                        <div className="w-11/12">
-                                            <p className="text-sm">New order received <a href="#" className="text-blue-600 font-bold">#OR9653</a>.</p>
-                                            <p className="text-xs text-gray-500">2 hours ago</p>
-                                        </div>
-                                    </div>
-                                    {/* <!-- end::Timeline item -->
-
-                        <!-- start::Timeline item --> */}
-                                    <div className="flex items-center w-full my-6 -ml-1.5">
-                                        <div className="w-1/12 z-10">
-                                            <div className="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
-                                        </div>
-                                        <div className="w-11/12">
-                                            <p className="text-sm">
-                                                Message received from <a href="#" className="text-blue-600 font-bold">Jane Stillman</a>.</p>
-                                            <p className="text-xs text-gray-500">2 hours ago</p>
-                                        </div>
-                                    </div>
-                                    {/* <!-- end::Timeline item --> */}
-                                </div>
-                            </div>
                         </div>
-                        <div className="flex flex-col w-full 2xl:w-2/3">
+                        {/* <div className="flex flex-col w-full 2xl:w-2/3">
                             <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
                                 <h4 className="text-xl text-gray-900 font-bold">About</h4>
                                 <p className="mt-2 text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt voluptates obcaecati numquam error et ut fugiat asperiores. Sunt nulla ad incidunt laboriosam, laudantium est unde natus cum numquam, neque facere. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, magni odio magnam commodi sunt ipsum eum! Voluptas eveniet aperiam at maxime, iste id dicta autem odio laudantium eligendi commodi distinctio!</p>
-                            </div>
-                            <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 p-8">
+                            </div> */}
+                        {/* <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 p-8">
                                 <h4 className="text-xl text-gray-900 font-bold">Statistics</h4>
 
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
@@ -360,31 +293,31 @@ export default function ProfileMoniteur({ params }: {
                                 <div className="mt-4">
                                     <canvas id="verticalBarChart" style={{ display: 'block', boxSizing: 'border-box', height: '414px', width: '828px' }} width="1656" height="828"></canvas>
                                 </div>
-                            </div>
-                        </div>
+                            </div> */}
+                        {/* </div> */}
                     </div>
-                    <div className="bg-white rounded-lg shadow-xl p-8">
-                        <div className="flex items-center justify-between">
-                            <h4 className="text-xl text-gray-900 font-bold">Connections (532)</h4>
-                            <a href="#" title="View All">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
-                                </svg>
-                            </a>
-                        </div>
-                        {clients && (
+                    {clients && (
+                        <div className="bg-white rounded-lg shadow-xl p-8">
+                            <div className="flex items-center justify-between">
+                                <h4 className="text-xl text-gray-900 font-bold">Connections ({clients.length})</h4>
+                                {/* <a href="#" title="View All"> */}
+                                {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                    </svg>
+                                </a> */}
+                            </div>
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
 
                                 {clients.map((connection: any, index: any) => (
-                                    <a key={index} href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
+                                    <Link key={index} href={`/clients/${connection.id}`} className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
                                         <Image width={50} height={50} src={`https://bkvsahkfjyxfeibvwrpm.supabase.co/storage/v1/object/public/machmech/${connection.image}`} alt="" />
                                         <p className="text-center font-bold text-sm mt-1">{connection.nom}</p>
                                         <p className="text-xs text-gray-500 text-center">{connection.prenom}</p>
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <>
