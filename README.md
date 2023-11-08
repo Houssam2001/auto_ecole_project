@@ -37,13 +37,13 @@ Access detailed analytics and reports on student progress, enrollment trends, an
 
 ## Images
 
-![Dashboard View](/images/automach.png "Dashboard View")
+![Dashboard View](/public/automach.png "Dashboard View")
 *Caption: AutoMachme 's intuitive dashboard provides a comprehensive overview of schedules, student progress, and financial data.*
 
-![Automated Billing](/images/condidat.png "Automated Billing")
+![Automated Billing](/public/condidat.png "Automated Billing")
 *Caption: AutoMachme  simplifies billing processes, automating invoice generation and tracking payments.*
 
-![Mobile Access](/images/mobilePrev.png "Mobile Access")
+![Mobile Access](/public/mobilePrev.png "Mobile Access")
 *Caption: AutoMachme  is accessible on smartphones and tablets, empowering directors to manage their school on-the-go.*
 
 
