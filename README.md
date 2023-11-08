@@ -1,6 +1,8 @@
 <h1><a href="https://auto-ecole-project.vercel.app/">AutoMachme</a></h1>
 The **AutoMachme** platform is a groundbreaking solution designed exclusively for driving school directors, empowering them with tools to effectively manage every aspect of their institution. This innovative web application redefines the driving school experience, ensuring smooth operations, transparent communication, and efficient student management.
+
 ![AutoMachme](/public/automache.png "AutoMachme")
+
 ## Key Features
 
 ### 1. **Effortless Student Management**
